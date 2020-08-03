@@ -151,12 +151,18 @@
 </nav>
 
         <div id="main" >
-            <div class ="post_page_title_img" style="height: 25rem;background-image: url();background-position: center; background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;overflow:hidden;" >
+            <div class ="post_page_title_img" style="height: 25rem;background-image: url(http://119.45.47.193/1583165618983.png);background-position: center; background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;overflow:hidden;" >
                 <a href="#" style="padding: 4rem 4rem 2rem 4rem ;"><h2 >php://filter的妙用</h2></a>
             </div>
             <!-- Post -->
             <div class="typo" style="padding: 3rem;">
-                <pre><code>aaaaaaaaaaaaaaaaaaaaaaaasddssdsdssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss</code></pre>
+                <h2><span id="phpfilter的妙用">php://filter的妙用</span></h2><p>这里关于php://filter的妙用主要涉及两种情况。</p>
+<h4><span id="情况一">情况一</span></h4><pre class=" language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+<span class="token variable">$content</span> <span class="token operator">=</span> <span class="token string">'&lt;?php exit; ?>'</span><span class="token punctuation">;</span>
+<span class="token variable">$content</span> <span class="token punctuation">.</span><span class="token operator">=</span> <span class="token variable">$_POST</span><span class="token punctuation">[</span><span class="token string">'txt'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token function">file_put_contents</span><span class="token punctuation">(</span><span class="token variable">$_</span><span class="token punctuation">[</span><span class="token string">'filename'</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token variable">$content</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>这里是<code>$_content</code>在开头增加了exit过程，导致我们即使成功写入一句话，也执行不了。幸运的是，这里的<code>$_POST[&#39;filename&#39;]</code>是可以控制协议的，我们即可使用 php://filter协议来施展魔法。</p>
+<h5><span id="方法一">方法一、</span></h5>
             </div>
 
             <!-- Post Comments -->
