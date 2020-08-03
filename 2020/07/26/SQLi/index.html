@@ -156,12 +156,12 @@
             </div>
             <!-- Post -->
             <div class="typo" style="padding: 3rem;">
-                <h1 id="DASCTF七月赛"><a href="#DASCTF七月赛" class="headerlink" title="DASCTF七月赛"></a>DASCTF七月赛</h1><h2 id="SQLI"><a href="#SQLI" class="headerlink" title="SQLI"></a>SQLI</h2><p>这个sql注入又学到了很多姿势，把information_schema库都过滤了，原来还可以用<strong>sys.x$schema_flattened_keys</strong>来代替information_schema库。学到了，这里贴一下大佬发现的waf</p>
+                <h1><span id="dasctf七月赛">DASCTF七月赛</span></h1><h2><span id="sqli">SQLI</span></h2><p>这个sql注入又学到了很多姿势，把information_schema库都过滤了，原来还可以用<strong>sys.x$schema_flattened_keys</strong>来代替information_schema库。学到了，这里贴一下大佬发现的waf</p>
 <pre><code>preg_match(&quot;/;|benchmark|\^|if|[\s]|in|case|when|sleep|auto|desc|stat|\||lock|or|and|&amp;|like|-|`/i&quot;, $id);</code></pre><p>可以直接布尔盲注，空格被过滤用/**/绕过，Y1ng大佬用的是limit注入，还没学过，这里学一下</p>
 <p>LIMIT[位置偏移量,]行数</p>
 <p>其中，中括号里面的参数是可选参数，位置偏移量是指MySQL查询分析器要从哪一行开始显示，索引值从0开始，即第一条记录位置偏移量是0，第二条记录的位置偏移量是1,依此类推…，第二个参数为“行数”即指示返回的记录条数。</p>
 <p>效果如下：</p>
-<img src="https://s1.ax1x.com/2020/07/26/aCDnds.png" style="zoom: 67%;" />
+<img src="https://s1.ax1x.com/2020/07/26/aCDnds.png" style="zoom: 67%;">
 
 <p>Y1ng大佬的脚本：</p>
 <pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> requests <span class="token keyword">as</span> req

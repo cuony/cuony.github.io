@@ -156,7 +156,7 @@
             </div>
             <!-- Post -->
             <div class="typo" style="padding: 3rem;">
-                <h1 id="DASCTF七月赛"><a href="#DASCTF七月赛" class="headerlink" title="DASCTF七月赛"></a>DASCTF七月赛</h1><h2 id="ezfileinclude"><a href="#ezfileinclude" class="headerlink" title="ezfileinclude"></a>ezfileinclude</h2><p>这题当时我被卡在time那里，傻了。</p>
+                <h1><span id="dasctf七月赛">DASCTF七月赛</span></h1><h2><span id="ezfileinclude">ezfileinclude</span></h2><p>这题当时我被卡在time那里，傻了。</p>
 <p>实际上直接用python的time.time()就行了，但我忘了，一直在考虑用反应头age。</p>
 <p>f=要base64加密一下，目录穿越读flag，但发现../被过滤，url绕过也不行，甚至读不出image.php，思考一番，应该是只能读jpg文件，所以在gpy.jpg后面加上../就行了，payload:</p>
 <pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> time<span class="token punctuation">,</span>requests<span class="token punctuation">,</span>base64
@@ -171,16 +171,16 @@ r <span class="token operator">=</span> requests<span class="token punctuation">
 <span class="token keyword">print</span><span class="token punctuation">(</span>r<span class="token punctuation">.</span>text<span class="token punctuation">)</span></code></pre>
 <p>这里看到大佬的payload顺便学习了一下python字符串前加b’gqy.jpg../../../../../../flag’的意义，这里我觉得不加也无所谓。</p>
 <blockquote>
-<h4 id="1、字符串前加-u"><a href="#1、字符串前加-u" class="headerlink" title="1、字符串前加 u"></a>1、字符串前加 u</h4><p>例：u”我是含有中文字符组成的字符串。”</p>
+<h4><span id="1-字符串前加-u">1、字符串前加 u</span></h4><p>例：u”我是含有中文字符组成的字符串。”</p>
 <p>作用：</p>
 <p>后面字符串以 Unicode 格式 进行编码，一般用在中文字符串前面，防止因为源码储存格式问题，导致再次使用时出现乱码。</p>
-<h4 id="2、字符串前加-r"><a href="#2、字符串前加-r" class="headerlink" title="2、字符串前加 r"></a>2、字符串前加 r</h4><p>例：r”\n\n\n\n”　　# 表示一个普通生字符串 \n\n\n\n，而不表示换行了。</p>
+<h4><span id="2-字符串前加-r">2、字符串前加 r</span></h4><p>例：r”\n\n\n\n”　　# 表示一个普通生字符串 \n\n\n\n，而不表示换行了。</p>
 <p>作用：</p>
 <p>去掉反斜杠的转义机制。</p>
 <p>（特殊字符：即那些，反斜杠加上对应字母，表示对应的特殊含义的，比如最常见的”\n”表示换行，”\t”表示Tab等。 ）</p>
 <p>应用：</p>
 <p>常用于正则表达式，对应着re模块。</p>
-<h4 id="3、字符串前加-b"><a href="#3、字符串前加-b" class="headerlink" title="3、字符串前加 b"></a>3、字符串前加 b</h4><p>例: response = b’<h1>Hello World!</h1>‘   # b’ ‘ 表示这是一个 bytes 对象</p>
+<h4><span id="3-字符串前加-b">3、字符串前加 b</span></h4><p>例: response = b’</p><h1><span id="hello-world">Hello World!</span></h1>‘   # b’ ‘ 表示这是一个 bytes 对象<p></p>
 <p>作用：</p>
 <p>b” “前缀表示：后面字符串是bytes 类型。</p>
 <p>用处：</p>

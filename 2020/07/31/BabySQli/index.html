@@ -156,7 +156,7 @@
             </div>
             <!-- Post -->
             <div class="typo" style="padding: 3rem;">
-                <h2 id="BabySQli"><a href="#BabySQli" class="headerlink" title="BabySQli"></a>BabySQli</h2><p>进入是个登录框，发现username里可以注入，然后会说wrong user，换成admin说wrong password，估计是要注出密码登陆，但发现()都被过滤了，估计不是让注出密码，估计要啥骚操作，看源码，有个base32，之后再base64解出</p>
+                <h2><span id="babysqli">BabySQli</span></h2><p>进入是个登录框，发现username里可以注入，然后会说wrong user，换成admin说wrong password，估计是要注出密码登陆，但发现()都被过滤了，估计不是让注出密码，估计要啥骚操作，看源码，有个base32，之后再base64解出</p>
 <pre><code>select * from user where username = &#39;$name&#39;</code></pre><p>虽然过滤了or，但大写绕过可以联合查询出是三列。</p>
 <p>去看师傅们，学到了一个骚操作</p>
 <p><strong>在联合查询并不存在的数据时，联合查询就会构造一个虚拟的数据。</strong></p>

