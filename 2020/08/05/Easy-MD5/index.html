@@ -151,12 +151,57 @@
 </nav>
 
         <div id="main" >
-            <div class ="post_page_title_img" style="height: 25rem;background-image: url();background-position: center; background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;overflow:hidden;" >
+            <div class ="post_page_title_img" style="height: 25rem;background-image: url(http://119.45.47.193/1583246500859.png);background-position: center; background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;overflow:hidden;" >
                 <a href="#" style="padding: 4rem 4rem 2rem 4rem ;"><h2 >Easy MD5</h2></a>
             </div>
             <!-- Post -->
             <div class="typo" style="padding: 3rem;">
-                
+                <h2><span id="easy-md5">Easy MD5</span></h2><p>进入就一个提交框。放到bp里看一看发现提示。hint在响应头里</p>
+<pre><code>Hint: &quot;select * from `admin` where password=&#39;&quot;.md5($pass,true).&quot;&#39;&quot;</code></pre><p>突破点在md5($pass,true)这里，突破点在md5($pass,true)这里，先来看看md5函数的用法：</p>
+<p><img src="https://s1.ax1x.com/2020/08/05/asaM59.png" alt></p>
+<p>这里的是true，意为返回原始16进制字符2进制格式</p>
+<p>也就是说如果md5值经过hex转成字符串后为 ‘or’+xxxxx这样的字符串，则拼接后构成的SQL语句为：</p>
+<pre><code>select * from `admin` where password=&#39;&#39;or&#39;xxxx&#39;</code></pre><p>如果or后面的xxxx为true，即可构成万能密码实现sql注入，这里mysql有个特性</p>
+<blockquote>
+<p>在mysql里面，在用作布尔型判断时，以1开头的字符串会被当做整型数。</p>
+<p>要注意的是这种情况是必须要有单引号括起来的，比如password=‘xxx’ or ‘1xxxxxxxxx’，那么就相当于password=‘xxx’ or 1 ，也就相当于password=‘xxx’ or true，所以返回值就是true。</p>
+<p>当然在我后来测试中发现，不只是1开头，只要是数字开头都是可以的。<br>当然如果只有数字的话，就不需要单引号，比如password=‘xxx’ or 1，那么返回值也是true。（xxx指代任意字符）</p>
+</blockquote>
+<p><strong>只要’or’后面的字符串为一个非零的数字开头都会返回True</strong>，这就是我们的突破点。</p>
+<p>我们可以通过这个脚本来获得满足我们要求的明文：</p>
+<pre class=" language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span> 
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token variable">$i</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span><span class="token punctuation">;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+ <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token variable">$c</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token variable">$c</span> <span class="token operator">&lt;</span> <span class="token number">1000000</span><span class="token punctuation">;</span> <span class="token variable">$c</span><span class="token operator">++</span><span class="token punctuation">,</span> <span class="token variable">$i</span><span class="token operator">++</span><span class="token punctuation">)</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">stripos</span><span class="token punctuation">(</span><span class="token function">md5</span><span class="token punctuation">(</span><span class="token variable">$i</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">'\'or\''</span><span class="token punctuation">)</span> <span class="token operator">!==</span> <span class="token boolean">false</span><span class="token punctuation">)</span>
+   <span class="token keyword">echo</span> <span class="token string">"\nmd5($i) = "</span> <span class="token punctuation">.</span> <span class="token function">md5</span><span class="token punctuation">(</span><span class="token variable">$i</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token punctuation">.</span> <span class="token string">"\n"</span><span class="token punctuation">;</span>
+ <span class="token keyword">echo</span> <span class="token string">"."</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token delimiter">?></span>
+
+<span class="token comment" spellcheck="true">//引用于 http://mslc.ctf.su/wp/leet-more-2010-oh-those-admins-writeup/</span></code></pre>
+<p>最常用的一个是：<strong>ffifdyop</strong>，该字符串md5加密后若raw参数为True时会返回 <strong>‘or’6<trash></trash></strong> (<trash>其实就是一些乱码和不可见字符，这里只要第一位是非零数字即可被判定为True，后面的<trash>会在MySQL将其转换成整型比较时丢掉)</trash></trash></p>
+<h4><span id="第二关弱类型比较">第二关弱类型比较</span></h4><pre class=" language-php"><code class="language-php"><span class="token operator">&lt;</span><span class="token operator">!</span><span class="token operator">--</span>
+<span class="token variable">$a</span> <span class="token operator">=</span> <span class="token variable">$GET</span><span class="token punctuation">[</span><span class="token string">'a'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token variable">$b</span> <span class="token operator">=</span> <span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string">'b'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token variable">$a</span> <span class="token operator">!=</span> <span class="token variable">$b</span> <span class="token operator">&amp;&amp;</span> <span class="token function">md5</span><span class="token punctuation">(</span><span class="token variable">$a</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token function">md5</span><span class="token punctuation">(</span><span class="token variable">$b</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// wow, glzjin wants a girl friend.</span>
+<span class="token operator">--</span><span class="token operator">></span></code></pre>
+<p>就是找两个md5相同，明文不同的值碰撞，只要最后md5是0e开头就行，这个是科学计数法相当于0*10多少次方。网上找很多</p>
+<p>这里直接提供两个QNKCDZO和s214587387a，用GET传值直接过关。这里也可以直接数组绕过。</p>
+<h4><span id="第三关数组绕过">第三关数组绕过</span></h4><pre class=" language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+<span class="token function">error_reporting</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">include</span> <span class="token string">"flag.php"</span><span class="token punctuation">;</span>
+
+<span class="token function">highlight_file</span><span class="token punctuation">(</span><span class="token constant">__FILE__</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token variable">$_POST</span><span class="token punctuation">[</span><span class="token string">'param1'</span><span class="token punctuation">]</span><span class="token operator">!==</span><span class="token variable">$_POST</span><span class="token punctuation">[</span><span class="token string">'param2'</span><span class="token punctuation">]</span><span class="token operator">&amp;&amp;</span><span class="token function">md5</span><span class="token punctuation">(</span><span class="token variable">$_POST</span><span class="token punctuation">[</span><span class="token string">'param1'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">===</span><span class="token function">md5</span><span class="token punctuation">(</span><span class="token variable">$_POST</span><span class="token punctuation">[</span><span class="token string">'param2'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">echo</span> <span class="token variable">$flag</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> </code></pre>
+<p>可以看到依旧是md5比较，但是不同于第二关，这一关是“===“强相等，很明显2中的方法没办法通过</p>
+<p>md5()函数无法处理数组，如果传入的为数组，会返回NULL，所以两个数组经过加密后得到的都是NULL,也就是相等的。</p>
+<p>所以直接POST传入param1[]=1&amp;param2[]=2即可得到Flag。</p>
+
             </div>
 
             <!-- Post Comments -->
