@@ -151,12 +151,23 @@
 </nav>
 
         <div id="main" >
-            <div class ="post_page_title_img" style="height: 25rem;background-image: url();background-position: center; background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;overflow:hidden;" >
+            <div class ="post_page_title_img" style="height: 25rem;background-image: url(http://119.45.47.193/5b457b70e7bce735da298242.jpg);background-position: center; background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;overflow:hidden;" >
                 <a href="#" style="padding: 4rem 4rem 2rem 4rem ;"><h2 >cve签到</h2></a>
             </div>
             <!-- Post -->
             <div class="typo" style="padding: 3rem;">
-                
+                <h2><span id="cve签到">cve签到</span></h2><p>涉及cve漏洞，cve-2020-7066</p>
+<p>这是漏洞的形成来自于’get_headers()‘函数，可以造成信息泄露</p>
+<p>搜索可知：</p>
+<p><img src="http://119.45.47.193/202005251590368285759033.png" alt></p>
+<p>通过上图，我们可以知道我们可以通过get方式传参，在目标要跳转到地址中使用 本地加%00截断 的格式如：</p>
+<pre class=" language-php"><code class="language-php"><span class="token operator">?</span>url<span class="token operator">=</span>http<span class="token punctuation">:</span><span class="token comment" spellcheck="true">//www.xmoct.cn                          //目标想去的站点</span>
+localhost\<span class="token package">0</span>                         <span class="token comment" spellcheck="true">//我们插入的截断语句</span>
+<span class="token operator">?</span>url<span class="token operator">=</span>                                                    <span class="token comment" spellcheck="true">//最终构成的语句</span></code></pre>
+<p>当我们的语句是通过get_header()函数接收时，就会造成被\0截断，而之后的部分不再读取，也就是图片中所介绍的get_headers()期望参数1为有效路径</p>
+<pre class=" language-php"><code class="language-php"><span class="token operator">?</span>url<span class="token operator">=</span>                                         <span class="token comment" spellcheck="true">//目标服务器所解析的语句</span></code></pre>
+<p>本体记住\0被当做数据提交了，但\0乐意呗%00代替，且提示host must be end with ‘123’所以可以构造</p>
+<pre><code>?url=http://127.0.0.123%00.ctfhub.com</code></pre>
             </div>
 
             <!-- Post Comments -->
