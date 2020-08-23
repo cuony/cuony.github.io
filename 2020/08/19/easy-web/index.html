@@ -173,7 +173,7 @@ $file = hex2bin(base64_decode(base64_decode($_GET['img'])));
 $file = preg_replace("/[^a-zA-Z0-9.]+/", "", $file);
 if (preg_match("/flag/i", $file)) {
     echo '<img src ="./ctf3.jpeg">';
-    die("xixiï½ no flag");
+    die("xixiï½ no flag");
 } else {
     $txt = base64_encode(file_get_contents($file));
     echo "<img src="data:image/gif;base64," . $txt . "">";
