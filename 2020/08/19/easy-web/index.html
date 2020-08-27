@@ -212,6 +212,8 @@ b=%4d%c9%68%ff%0e%e3%5c%20%95%72%d4%77%7b%72%15%87%d3%6f%a7%b2%1b%dc%56%b7%4a%3d
 <blockquote>
 <h4><span id="反斜杠逃逸绕过黑名单进行rce">反斜杠逃逸绕过黑名单进行rce</span></h4><p>这个题就卡在这个点上了<br>这个原理是因为 当在前端输入ca\t时<br>后端将此字符存为字符串”ca\\t“<br>而”ca\\t”需要用“\\\\t”来匹配<br>从而绕过正则<br>而且在shell命令里可以随便加\不影响执行</p>
 </blockquote>
+<p>这块还有些许疑惑</p>
+<p>[]: <a href="https://blog.csdn.net/weixin_41463193/article/details/83539168" target="_blank" rel="noopener">https://blog.csdn.net/weixin_41463193/article/details/83539168</a>    “【PHP】之4个反斜杠、3个反斜杠的情况”</p>
 <p>所以可以</p>
 <pre><code>?cmd=ca\t /flag</code></pre><h5><span id="看大佬wp有另一种方法">看大佬wp有另一种方法</span></h5><p>因为sort没被过滤</p>
 <blockquote>
